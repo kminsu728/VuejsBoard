@@ -1,12 +1,10 @@
-server:
-  port: 9999
-  servlet:
-    context-path: /
-
 spring:
-  application:
-    name: demo
   mvc:
     view:
+      prefix: /WEB-INF/jsp/
       suffix: .jsp
-      prefix: /WEB-INF/views/
+
+server:
+  port: 8080
+  servlet:
+    context-path: /

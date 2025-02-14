@@ -10,8 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DemoController {
 
-    @GetMapping("/")
+    @GetMapping("/api")
     public String hello() {
+        return "Hello from Spring Boot!";
+    }
+
+    @GetMapping("/qqq")
+    public String qqq() {
         return "Hello from Spring Boot!";
     }
 
