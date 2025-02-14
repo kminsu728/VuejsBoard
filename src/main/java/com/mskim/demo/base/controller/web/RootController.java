@@ -1,4 +1,4 @@
-package com.mskim.demo.base.controller;
+package com.mskim.demo.base.controller.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

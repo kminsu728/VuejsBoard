@@ -5,6 +5,7 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -79,5 +80,10 @@ public class LogAspect {
         parameterMap.forEach((key, value) -> logger.info("Request Parameter: {} = {}", key, String.join(",", value)));
     }
 
+    @After("execution(* com.mskim.demo.base.controller..*(..))")
+    public void makeResponse() {
+        System.out.println("__LogAspect__");
+
+    }
 
 }

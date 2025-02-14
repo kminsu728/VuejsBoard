@@ -19,7 +19,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-devtools'
-    implementation 'javax.servlet:jstl'
+    //implementation 'javax.servlet:jstl'
     implementation 'org.projectlombok:lombok:1.18.24'
     implementation 'org.aspectj:aspectjweaver:1.9.7'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
