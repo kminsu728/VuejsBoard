@@ -13,12 +13,11 @@ import java.util.Optional;
 
 @Slf4j
 @Aspect
-@Order(1)
+@Order(Integer.MAX_VALUE)
 @Component
 public class CorsAspect {
     @After("execution(* com.mskim.demo.base.controller..*(..))")
     public void addCorsHeaders() {
-        System.out.println("__CorsAspect__");
         if (false) {
             Optional.ofNullable(RequestContextHolder.getRequestAttributes())
                     .filter(ServletRequestAttributes.class::isInstance)

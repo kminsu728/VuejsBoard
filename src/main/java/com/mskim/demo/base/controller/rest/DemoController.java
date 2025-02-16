@@ -1,11 +1,12 @@
 package com.mskim.demo.base.controller.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mskim.demo.base.service.DemoService;
 import com.mskim.demo.base.model.UserBase;
+import com.mskim.demo.base.model.VuejsException;
+import com.mskim.demo.base.model.VuejsExceptionType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,29 +20,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class DemoController {
 
+    @Autowired
+    DemoService demoService;
+
     @GetMapping("/hello")
     public String hello() {
         return "Hello from Spring Boot!";
     }
 
     @RequestMapping(value = "/response", method = RequestMethod.GET)
-    public ResponseEntity<String> response() {
-        UserBase user = UserBase.builder()
-                .name("mskim")
-                .email("kminsu728@nate.com")
-                .age(35).build();
-
-        String json;
+    public ResponseEntity<UserBase> response() throws Exception {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            json = objectMapper.writeValueAsString(user);
-        } catch (JsonProcessingException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
+            UserBase user = UserBase.builder()
+                    .name("mskim")
+                    .email("kminsu728@nate.com")
+                    .age(35).build();
 
-        return new ResponseEntity<>(json, headers, HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.OK).body(user);
+        } catch (VuejsException ve) {
+            throw ve;
+        }
+    }
+
+    @RequestMapping(value = "/response2", method = RequestMethod.GET)
+    public UserBase response2() throws Exception {
+        try {
+            UserBase user = UserBase.builder()
+                    .name("mskim")
+                    .email("kminsu728@nate.com")
+                    .age(35).build();
+
+            return user;
+        } catch (VuejsException ve) {
+            throw ve;
+        }
+    }
+
+    @RequestMapping(value = "/error", method = RequestMethod.GET)
+    public ResponseEntity<String> error() throws Exception {
+        throw new VuejsException(VuejsExceptionType.invalid_request, "custom error message");
+    }
+
+    @RequestMapping(value = "/error/unknown", method = RequestMethod.GET)
+    public ResponseEntity<String> errorUnkown() throws Exception {
+        throw new ArithmeticException("by zero /");
     }
 
 }

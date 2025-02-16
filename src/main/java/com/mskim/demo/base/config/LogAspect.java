@@ -2,6 +2,8 @@ package com.mskim.demo.base.config;
 
 import java.util.Enumeration;
 import java.util.Map;
+
+import com.mskim.demo.base.model.VuejsException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -22,11 +24,9 @@ import java.util.Optional;
 
 @Slf4j
 @Aspect
-@Order()
+@Order(2)
 @Component
 public class LogAspect {
-    private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
-
     private String getSessionId() {
         return Optional.ofNullable(RequestContextHolder.getRequestAttributes())
                 .filter(ServletRequestAttributes.class::isInstance)
@@ -37,20 +37,21 @@ public class LogAspect {
                 .orElse("");
     }
 
-    //@Around 말고 다른 어노테이션으로 처리 가능
     @Around("execution(* com.mskim.demo.base..*.*(..))")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         String sessionId = getSessionId();
         String pkgName = joinPoint.getSignature().getDeclaringTypeName();
 
-        logger.info("[{}]->{}", sessionId, pkgName);
+        log.info("[{}]->{}", sessionId, pkgName);
         Object result;
         try {
             result = joinPoint.proceed();  // 실제 메서드 실행
-            logger.info("[{}]<-{}", sessionId, pkgName);
+            log.info("[{}]<-{}", sessionId, pkgName);
+        } catch (VuejsException ve) {
+            log.info("[{}]!{} Exception : [{}] {}", sessionId, pkgName, ve.getTitle(), ve.getDescription());
+            throw ve;
         } catch (Throwable throwable) {
-            logger.error("[{}]!{} 실행 중 예외 발생 : {}", sessionId, pkgName,
-                    throwable.getMessage());
+            log.info("[{}]!{} Exception : ", sessionId, pkgName, throwable);
             throw throwable;
         }
         return result;
@@ -64,7 +65,7 @@ public class LogAspect {
         // 로그에 컨트롤러 및 메소드 정보 출력
         String controllerName = joinPoint.getSignature().getDeclaringTypeName();
         String methodName = joinPoint.getSignature().getName();
-        logger.info("Calling controller: {}#{}", controllerName, methodName);
+        log.debug("Calling controller: {}#{}", controllerName, methodName);
 
         // Request Header 정보 출력
         HttpHeaders headers = new HttpHeaders();
@@ -73,17 +74,11 @@ public class LogAspect {
             String headerName = headerNames.nextElement();
             headers.add(headerName, request.getHeader(headerName));
         }
-        logger.info("Request Headers: {}", headers);
+        log.debug("Request Headers: {}", headers);
 
         // Request Parameter 정보 출력
         Map<String, String[]> parameterMap = request.getParameterMap();
-        parameterMap.forEach((key, value) -> logger.info("Request Parameter: {} = {}", key, String.join(",", value)));
-    }
-
-    @After("execution(* com.mskim.demo.base.controller..*(..))")
-    public void makeResponse() {
-        System.out.println("__LogAspect__");
-
+        parameterMap.forEach((key, value) -> log.debug("Request Parameter: {} = {}", key, String.join(",", value)));
     }
 
 }

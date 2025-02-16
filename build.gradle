@@ -9,8 +9,8 @@ bootWar {
     archiveFileName = 'springboot-sample.war'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -22,6 +22,10 @@ dependencies {
     //implementation 'javax.servlet:jstl'
     implementation 'org.projectlombok:lombok:1.18.24'
     implementation 'org.aspectj:aspectjweaver:1.9.7'
+    //jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     runtimeOnly 'org.springframework.boot:spring-boot-starter-tomcat'
     runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper'
