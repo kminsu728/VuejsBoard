@@ -16,7 +16,7 @@ import java.util.Optional;
 @Order(Integer.MAX_VALUE)
 //@Component
 public class CorsAspect {
-    @After("execution(* com.mskim.demo.base.controller..*(..))")
+    @After("execution(* com.mskim.demo.base.sample..*(..))")
     public void addCorsHeaders() {
         Optional.ofNullable(RequestContextHolder.getRequestAttributes())
                 .filter(ServletRequestAttributes.class::isInstance)

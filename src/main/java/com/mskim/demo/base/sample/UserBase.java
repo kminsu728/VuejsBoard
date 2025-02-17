@@ -1,4 +1,4 @@
-package com.mskim.demo.base.model;
+package com.mskim.demo.base.sample;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.mskim.demo.base.service;
+package com.mskim.demo.base.sample;
 
 import com.mskim.demo.base.model.VuejsException;
 import com.mskim.demo.base.model.VuejsExceptionType;

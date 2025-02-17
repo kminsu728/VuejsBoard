@@ -1,7 +1,5 @@
-package com.mskim.demo.base.controller.rest;
+package com.mskim.demo.base.sample;
 
-import com.mskim.demo.base.service.DemoService;
-import com.mskim.demo.base.model.UserBase;
 import com.mskim.demo.base.model.VuejsException;
 import com.mskim.demo.base.model.VuejsExceptionType;
 import lombok.RequiredArgsConstructor;
@@ -12,13 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RestController
+@org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class DemoController {
+public class RestController {
 
     @Autowired
     DemoService demoService;

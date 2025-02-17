@@ -1,12 +1,12 @@
-package com.mskim.demo.base.controller.web;
+package com.mskim.demo.base.sample;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class RootController {
+public class WebController {
 
-    @RequestMapping("/")
+    @RequestMapping("/1st")
     public String helloWorld() {
         return "hello";
     }

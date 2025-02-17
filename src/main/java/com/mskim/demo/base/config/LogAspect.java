@@ -57,7 +57,7 @@ public class LogAspect {
         return result;
     }
 
-    @Before("execution(* com.mskim.demo.base.controller..*.*(..))")
+    @Before("execution(* com.mskim.demo.base.sample..*.*(..))")
     public void logRequestHeaderAndParams(JoinPoint joinPoint) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();

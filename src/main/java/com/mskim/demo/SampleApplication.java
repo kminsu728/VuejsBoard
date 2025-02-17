@@ -1,4 +1,4 @@
-package com.mskim.demo.base;
+package com.mskim.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
