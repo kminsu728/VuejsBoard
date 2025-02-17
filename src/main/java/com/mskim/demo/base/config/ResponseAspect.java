@@ -28,7 +28,7 @@ public class ResponseAspect {
         } catch (VuejsException ve) {
             return generateErrorResponse(ve);
         } catch (Throwable throwable) {
-            return generateErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Unkown Server Error", throwable.getMessage(), "Z9999");
+            return generateErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", throwable.getMessage(), "Z9999");
         }
     }
 
@@ -46,7 +46,7 @@ public class ResponseAspect {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("title", errorTitle);
         errorResponse.put("description", errorDesc);
-        errorResponse.put("errcpde", errorCode);
+        errorResponse.put("errcode", errorCode);
         errorResponse.put("status", httpStatus.value());
 
         return ResponseEntity.status(httpStatus)

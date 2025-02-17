@@ -14,21 +14,19 @@ import java.util.Optional;
 @Slf4j
 @Aspect
 @Order(Integer.MAX_VALUE)
-@Component
+//@Component
 public class CorsAspect {
     @After("execution(* com.mskim.demo.base.controller..*(..))")
     public void addCorsHeaders() {
-        if (false) {
-            Optional.ofNullable(RequestContextHolder.getRequestAttributes())
-                    .filter(ServletRequestAttributes.class::isInstance)
-                    .map(ServletRequestAttributes.class::cast)
-                    .map(ServletRequestAttributes::getResponse)
-                    .ifPresent(response -> {
-                        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-                        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, PUT, DELETE, OPTIONS");
-                        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-                    });
-        }
+        Optional.ofNullable(RequestContextHolder.getRequestAttributes())
+                .filter(ServletRequestAttributes.class::isInstance)
+                .map(ServletRequestAttributes.class::cast)
+                .map(ServletRequestAttributes::getResponse)
+                .ifPresent(response -> {
+                    response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+                    response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, PUT, DELETE, OPTIONS");
+                    response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+                });
     }
 
 }
