@@ -2,6 +2,7 @@ package com.mskim.demo.base.sample;
 
 import com.mskim.demo.base.model.VuejsException;
 import com.mskim.demo.base.model.VuejsExceptionType;
+import com.mskim.demo.base.model.VueJsResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,40 +27,26 @@ public class RestController {
     }
 
     @RequestMapping(value = "/response", method = RequestMethod.GET)
-    public ResponseEntity<UserBase> response() throws Exception {
+    public VueJsResponse response3() throws Exception {
         try {
             UserBase user = UserBase.builder()
                     .name("mskim")
                     .email("kminsu728@nate.com")
                     .age(35).build();
 
-            return ResponseEntity.status(HttpStatus.OK).body(user);
-        } catch (VuejsException ve) {
-            throw ve;
-        }
-    }
-
-    @RequestMapping(value = "/response2", method = RequestMethod.GET)
-    public UserBase response2() throws Exception {
-        try {
-            UserBase user = UserBase.builder()
-                    .name("mskim")
-                    .email("kminsu728@nate.com")
-                    .age(35).build();
-
-            return user;
+            return VueJsResponse.ok(user);
         } catch (VuejsException ve) {
             throw ve;
         }
     }
 
     @RequestMapping(value = "/error", method = RequestMethod.GET)
-    public ResponseEntity<String> error() throws Exception {
+    public VueJsResponse error() throws Exception {
         throw new VuejsException(VuejsExceptionType.invalid_request, "custom error message");
     }
 
     @RequestMapping(value = "/error/unknown", method = RequestMethod.GET)
-    public ResponseEntity<String> errorUnkown() throws Exception {
+    public VueJsResponse errorUnkown() throws Exception {
         throw new ArithmeticException("by zero /");
     }
 

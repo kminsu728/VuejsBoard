@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/user")
-    public String index() {
+    @GetMapping("/user/info")
+    public String findById() {
 
 
         return "123";
