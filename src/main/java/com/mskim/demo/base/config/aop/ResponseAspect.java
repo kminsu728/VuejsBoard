@@ -1,4 +1,4 @@
-package com.mskim.demo.base.config;
+package com.mskim.demo.base.config.aop;
 
 import com.mskim.demo.base.model.VuejsException;
 import com.mskim.demo.base.model.VueJsResponse;
@@ -26,5 +26,6 @@ public class ResponseAspect {
             return VueJsResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", throwable.getMessage(), "Z9999");
         }
     }
-
+    //TODO: 현재 객체를 반환하기에 status code 가 무조건 200으로 응답 됨. (RestController 의 기능)
+    //TODO: 만약 200이 아닌 status code 로 반환하려면 return ResponseEntity 로 하도록 한번 감싸야 됨.
 }

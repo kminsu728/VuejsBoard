@@ -17,17 +17,33 @@ repositories {
 }
 
 dependencies {
+    // etc
+    implementation 'org.aspectj:aspectjweaver:1.9.7'
+
+    // spring boot
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'org.springframework.boot:spring-boot-starter-tomcat'
+    runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     //implementation 'javax.servlet:jstl'
+
+    // Lombok
     implementation 'org.projectlombok:lombok:1.18.24'
-    implementation 'org.aspectj:aspectjweaver:1.9.7'
-    //jackson
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    // jackson
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
-    runtimeOnly 'org.springframework.boot:spring-boot-starter-tomcat'
-    runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+    // MongoDB + InfluxDB
+    //implementation 'org.springframework.data:spring-data-mongodb:3.4.13'
+    //implementation 'org.mongodb:mongodb-driver-sync:4.11.5'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'com.influxdb:influxdb-client-java:6.12.0'
+    implementation 'com.github.luben:zstd-jni:1.5.5-5'
+
+    // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    }
+}

@@ -1,4 +1,4 @@
-package com.mskim.demo.base.config;
+package com.mskim.demo.base.config.aop;
 
 import java.util.Enumeration;
 import java.util.Map;
@@ -7,12 +7,9 @@ import com.mskim.demo.base.model.VuejsException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -27,17 +24,24 @@ import java.util.Optional;
 @Order(2)
 @Component
 public class LogAspect {
+
+    private static final ThreadLocal<String> sessionIdThreadLocal = new ThreadLocal<>();
+
     private String getSessionId() {
-        return Optional.ofNullable(RequestContextHolder.getRequestAttributes())
-                .filter(ServletRequestAttributes.class::isInstance)
-                .map(ServletRequestAttributes.class::cast)
-                .map(ServletRequestAttributes::getRequest)
-                .map(HttpServletRequest::getSession)
-                .map(session -> session.getId().substring(0, 10))
-                .orElse("");
+        if (sessionIdThreadLocal.get() == null) {
+            String sessionId = Optional.ofNullable(RequestContextHolder.getRequestAttributes())
+                    .filter(ServletRequestAttributes.class::isInstance)
+                    .map(ServletRequestAttributes.class::cast)
+                    .map(ServletRequestAttributes::getRequest)
+                    .map(HttpServletRequest::getSession)
+                    .map(session -> session.getId().substring(0, 10))
+                    .orElse("");
+            sessionIdThreadLocal.set(sessionId);
+        }
+        return sessionIdThreadLocal.get();
     }
 
-    @Around("execution(* com.mskim.demo.base..*.*(..))")
+    @Around("execution(* com.mskim.demo.rest..*.*(..))")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         String sessionId = getSessionId();
         String pkgName = joinPoint.getSignature().getDeclaringTypeName();
@@ -52,6 +56,25 @@ public class LogAspect {
             throw ve;
         } catch (Throwable throwable) {
             log.info("[{}]!{} Exception : ", sessionId, pkgName, throwable);
+            throw throwable;
+        }
+        return result;
+    }
+
+    @Around("execution(* com.mskim.demo.base.config..*.*(..)) || execution(* com.mskim.demo.base.component..*.*(..))")
+    public Object logAroundConfig(ProceedingJoinPoint joinPoint) throws Throwable {
+        String pkgName = joinPoint.getSignature().getDeclaringTypeName();
+
+        log.info("->{}", pkgName);
+        Object result;
+        try {
+            result = joinPoint.proceed();
+            log.info("<-{}", pkgName);
+        } catch (VuejsException ve) {
+            log.info("!{} Exception : [{}] {}", pkgName, ve.getTitle(), ve.getDescription());
+            throw ve;
+        } catch (Throwable throwable) {
+            log.info("!{} Exception : ", pkgName, throwable);
             throw throwable;
         }
         return result;

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "demo")
-public class DemoProperties {
+@ConfigurationProperties(prefix = "vuejs")
+public class VuejsProperties {
     String restUrl = "";
 }
