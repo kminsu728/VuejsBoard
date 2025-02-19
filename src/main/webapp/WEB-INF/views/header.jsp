@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.mskim.demo.rest.user.User" %>
+<%@ page import="org.springframework.security.core.Authentication" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,72 +8,56 @@
     <title>TopHeader Example</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <%
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) ? auth.getName() : null;
+    %>
 </head>
 <body>
-<%
-    User loggedInUser = (User) session.getAttribute("user");
-%>
-<header>
-    <div class="top-header">
-        <div class="container">
-            <div class="logo" onclick="loadContent('home.jsp')">
-                <span>HOME</span>
-            </div>
-            <nav>
-                <ul>
-                    <li onclick="loadContent('board_1')"><a href="#">QnA</a></li>
-                    <li onclick="loadContent('board_2')"><a href="#">Community</a></li>
-                </ul>
-            </nav>
-            <div class="auth-section">
-                <% if (loggedInUser == null) { %>
-                <button onclick="openLoginPopup()">로그인</button>
-                <button onclick="location.href='register.jsp'">회원가입</button>
-                <% } else { %>
-                <span><%= loggedInUser.getName() %>님 환영합니다!</span>
-                <button onclick="logout()">로그아웃</button>
-                <% } %>
-            </div>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Home</a>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="/board1">Board1</a></li>
+                <li class="nav-item"><a class="nav-link" href="/board2">Board2</a></li>
+            </ul>
+        </div>
+
+        <div class="d-flex">
+            <% if (username == null) { %>
+            <button class="btn btn-primary me-2" onclick="openLoginModal()">로그인</button>
+            <a class="btn btn-outline-secondary" href="/signup.jsp">회원가입</a>
+            <% } else { %>
+            <span class="me-3 fw-bold text-dark"><%= username %> 님</span>
+            <button class="btn btn-danger" onclick="logout()">로그아웃</button>
+            <% } %>
         </div>
     </div>
-</header>
+</nav>
 
-
-<!-- 로그인 팝업 -->
-<div id="loginPopup" class="popup">
-    <div class="popup-content">
-        <span class="close" onclick="closeLoginPopup()">&times;</span>
-        <h2>로그인</h2>
-        <form id="loginForm" method="post" action="/auth/login">
-            <label>아이디:</label>
-            <input type="text" name="username" required>
-            <label>비밀번호:</label>
-            <input type="password" name="password" required>
-            <button type="submit">로그인</button>
-        </form>
-    </div>
-</div>
-
-<style>
-    .popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        background: white; padding: 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
-    .popup-content { text-align: center; }
-    .close { position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 20px; }
-</style>
+<%@ include file="login-modal.jsp" %>
 
 <script>
-    function openLoginPopup() {
-        document.getElementById("loginPopup").style.display = "block";
+    function openLoginModal() {
+        let modal = new bootstrap.Modal(document.getElementById('loginModal'));
+        modal.show();
     }
-    function closeLoginPopup() {
-        document.getElementById("loginPopup").style.display = "none";
-    }
+
     function logout() {
-        fetch('/auth/logout', { method: 'GET' })
-            .then(() => location.reload());
+        fetch("/logout", { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status == 200) {
+                    window.location.reload();
+                }
+            });
     }
 </script>
-
 </body>
 </html>
 

@@ -11,12 +11,12 @@ public class JspController {
         return "index";
     }
 
-    @RequestMapping("/board_1")
+    @RequestMapping("/board1")
     public String board() {
-        return "board_1";
+        return "board1";
     }
-    @RequestMapping("/board_2")
+    @RequestMapping("/board2")
     public String board2() {
-        return "board_2";
+        return "board2";
     }
 }

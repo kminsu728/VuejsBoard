@@ -22,7 +22,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         // ity<VueJsResponse>를 반환하도록 변경되었다면
         ResponseEntity<VueJsResponse> responseEntity = VueJsResponse.ok(new HashMap<String, Object>(){{
-            put("userId", userDetails.getUsername());
+            put("username", userDetails.getUsername());
         }});
 
         VueJsResponse vueJsResponse = responseEntity.getBody();

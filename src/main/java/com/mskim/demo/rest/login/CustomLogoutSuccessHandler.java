@@ -24,14 +24,14 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
         if (authentication == null) {
             responseEntity = VueJsResponse.ok(new HashMap<String, Object>(){{
-                put("userId", null);
+                put("username", null);
             }});
         } else {
             Object principal = authentication.getPrincipal();
             UserDetails userDetails = (UserDetails) principal;
 
             responseEntity = VueJsResponse.ok(new HashMap<String, Object>(){{
-                put("userId", userDetails.getUsername());
+                put("username", userDetails.getUsername());
             }});
         }
 

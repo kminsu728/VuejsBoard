@@ -30,14 +30,14 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .formLogin(form -> form
-                        .loginProcessingUrl("/api/login")
-                        .usernameParameter("userId")
+                        .loginProcessingUrl("/login")
+                        .usernameParameter("username")
                         .passwordParameter("password")
                         .successHandler(new CustomAuthenticationSuccessHandler()) // 성공 핸들러 등록
                         .failureHandler(new CustomAuthenticationFailureHandler()) // 실패 핸들러 등록
                         .permitAll())
                 .logout(logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/api/logout"))
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessHandler(new CustomLogoutSuccessHandler())
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")

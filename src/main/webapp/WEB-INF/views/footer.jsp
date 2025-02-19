@@ -6,9 +6,12 @@
     <title>Bottom Section</title>
 </head>
 <body>
-<footer>
-    <p>Footer content goes here.</p>
-    <!-- 추가적인 푸터 내용 -->
-</footer>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <p>&copy; Vuejs Board Site</p>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -18,8 +18,6 @@ public class BoardController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/test")
     public ResponseEntity<VueJsResponse> removeItem() {
-
-
         return VueJsResponse.ok(new HashMap<String, Object>(){{
             put("board", "123");
             put("board2", "345");

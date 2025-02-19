@@ -4,17 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <title>JSP Page</title>
+    <link rel="stylesheet" href="<c:url value='/css/style.css' />">
 </head>
 <body>
-
+<header class="header sticky-top">
 <jsp:include page="header.jsp" />
+</header>
 
-<div id="content-container">
-    <jsp:include page="board_1.jsp" />
-</div>
 
+<main class="body">
+    <jsp:include page="board1.jsp" />
+</main>
+
+<footer class="footer fixed-bottom">
 <jsp:include page="footer.jsp" />
-
+</footer>
 
 <script>
     function loadContent(page) {
