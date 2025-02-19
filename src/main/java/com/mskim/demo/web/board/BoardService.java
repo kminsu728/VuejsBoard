@@ -1,12 +1,12 @@
 package com.mskim.demo.web.board;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.parameters.P;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -15,15 +15,27 @@ public class BoardService {
 
     private final PostRepository postRepository;
 
-    public List<Post> getPost(String boardType, int page) {
-        List<Post> posts = new ArrayList<>();
+    private static final int PAGE_SIZE = 10;
 
-        for(int i = 0; i < 10; i++) {
-            posts.add(new Post(i, "post" + i, "this is post", "test", new Timestamp(System.currentTimeMillis()), "100","qna"));
-        }
-
-        return posts;
+    public List<Post> getPost(String type, int page) {
+        PageRequest pageable = PageRequest.of(page - 1, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "date"));
+        Page<Post> postPage = postRepository.findByType(type, pageable);
+        return postPage.getContent();
     }
+
+    public void createPost(String type, String title, String author, String content){
+        Post newPost = Post.builder()
+                .type(type)
+                .title(title)
+                .author(author)
+                .content(content)
+                .date(new Timestamp(System.currentTimeMillis()))
+                .views(0)
+                .build();
+
+        postRepository.insert(newPost);
+    }
+
 
 
 

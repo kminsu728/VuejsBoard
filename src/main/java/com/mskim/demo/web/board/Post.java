@@ -22,7 +22,7 @@ public class Post {
 
     private Timestamp date;
 
-    private String views;
+    private long views;
 
     private String type;
 
