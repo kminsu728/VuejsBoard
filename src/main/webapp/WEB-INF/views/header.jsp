@@ -16,15 +16,18 @@
 </head>
 <body>
 
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Home</a>
 
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="/board1">Board1</a></li>
-                <li class="nav-item"><a class="nav-link" href="/board2">Board2</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/board?type=qna">QnA 게시판</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/board?type=community">자유게시판</a>
+                </li>
             </ul>
         </div>
 

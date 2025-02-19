@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <form id="loginForm">
                     <div class="mb-3">
-                        <label for="userId" class="form-label">아이디</label>
+                        <label for="username" class="form-label">아이디</label>
                         <input type="text" class="form-control" id="username" name="username" placeholder="아이디 입력">
                     </div>
 
