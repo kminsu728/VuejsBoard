@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -20,12 +21,12 @@ public class ResponseAspect {
     public Object around(ProceedingJoinPoint joinPoint) {
         try {
             return joinPoint.proceed();
+        }  catch (AccessDeniedException e) {
+            return VueJsResponse.error(HttpStatus.FORBIDDEN, "Forbidden", e.getMessage(), "AUTH_ERROR");
         } catch (VuejsException ve) {
             return VueJsResponse.error(ve);
         } catch (Throwable throwable) {
-            return VueJsResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", throwable.getMessage(), "Z9999");
+            return VueJsResponse.error(throwable);
         }
     }
-    //TODO: 현재 객체를 반환하기에 status code 가 무조건 200으로 응답 됨. (RestController 의 기능)
-    //TODO: 만약 200이 아닌 status code 로 반환하려면 return ResponseEntity 로 하도록 한번 감싸야 됨.
 }

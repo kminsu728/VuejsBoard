@@ -5,6 +5,7 @@ import com.mskim.demo.base.model.VuejsException;
 import com.mskim.demo.base.model.VuejsExceptionType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,15 +25,15 @@ public class UserController {
     public static final String AUTH_ROLE_KEY = "___ROLE___";
 
     @GetMapping("/login/deprecated")
-    public VueJsResponse login(HttpServletRequest request, @RequestParam String userId, @RequestParam String password) {
+    public ResponseEntity<VueJsResponse> login(HttpServletRequest request, @RequestParam String userId, @RequestParam String password) {
         User user = userService.authenticate(userId, password);
         try{
             if (user != null) {
                 request.getSession().setAttribute(AUTH_LOGIN_KEY, user.getUserId());
-                request.getSession().setAttribute(AUTH_ROLE_KEY, user.getRole());
+                request.getSession().setAttribute(AUTH_ROLE_KEY, user.getRoles());
                 return VueJsResponse.ok(new HashMap<String, Object>(){{
                     put("userId", user.getUserId());
-                    put("role", user.getRole());
+                    put("role", user.getRoles());
                 }});
             } else {
                 throw new VuejsException(VuejsExceptionType.login_fail);
@@ -43,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/logout/deprecated")
-    public VueJsResponse logout(HttpServletRequest request) {
+    public ResponseEntity<VueJsResponse> logout(HttpServletRequest request) {
         try {
             request.getSession().invalidate();
             return VueJsResponse.ok("logout Success");

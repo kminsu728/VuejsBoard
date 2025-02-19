@@ -14,19 +14,25 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         Object principal = authentication.getPrincipal();
         UserDetails userDetails = (UserDetails) principal;
 
-        VueJsResponse vueJsResponse = VueJsResponse.ok(new HashMap<String, Object>(){{
+        // ity<VueJsResponse>를 반환하도록 변경되었다면
+        ResponseEntity<VueJsResponse> responseEntity = VueJsResponse.ok(new HashMap<String, Object>(){{
             put("userId", userDetails.getUsername());
         }});
 
+        VueJsResponse vueJsResponse = responseEntity.getBody();
+        int status = responseEntity.getStatusCodeValue();
+
+        // JSON 문자열로 변환
         String jsonResponse = new ObjectMapper().writeValueAsString(vueJsResponse);
 
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(jsonResponse);
-        response.setStatus(HttpServletResponse.SC_OK);
+        response.setStatus(status);
     }
 }

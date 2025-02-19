@@ -5,6 +5,8 @@ import lombok.Data;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document
 @Data
 @Builder
@@ -18,6 +20,7 @@ public class User {
 
     private String email;
 
-    private String role;
+    private List<String> roles;
 
+    private Boolean enabled;
 }

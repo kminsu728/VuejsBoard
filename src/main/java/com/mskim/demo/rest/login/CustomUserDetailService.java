@@ -17,16 +17,18 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUserId(username); // 데이터베이스에서 사용자 정보 조회
+        User user = userRepository.findByUserId(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
 
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUserId())
-                .password(user.getPassword())
-                .roles(user.getRole())
-                .build();
+        return new CustomUserDetails(user);
+
+//        return org.springframework.security.core.userdetails.User.builder()
+//                .username(user.getUserId())
+//                .password(user.getPassword())
+//                .roles(user.getRole())
+//                .build();
     }
 }

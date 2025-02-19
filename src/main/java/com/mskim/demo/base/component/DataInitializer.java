@@ -9,6 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+
 @Component
 @AllArgsConstructor
 public class DataInitializer implements CommandLineRunner {
@@ -25,7 +27,8 @@ public class DataInitializer implements CommandLineRunner {
                         .name("ADMIN")
                         .password(passwordEncoder.encode("admin"))
                         .email("admin@example.com")
-                        .role("ADMIN").build();
+                        .roles(Collections.singletonList("ADMIN"))
+                        .enabled(true).build();
                 userRepository.save(admin);
             }
 
@@ -35,7 +38,8 @@ public class DataInitializer implements CommandLineRunner {
                         .name("TEST")
                         .password(passwordEncoder.encode("test"))
                         .email("test@example.com")
-                        .role("USER").build();
+                        .roles(Collections.singletonList("USER"))
+                        .enabled(true).build();
                 userRepository.save(testUser);
             }
         } catch (Exception e ) {

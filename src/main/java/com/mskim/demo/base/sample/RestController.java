@@ -27,7 +27,7 @@ public class RestController {
     }
 
     @RequestMapping(value = "/response", method = RequestMethod.GET)
-    public VueJsResponse response3() throws Exception {
+    public ResponseEntity<VueJsResponse> response3() throws Exception {
         try {
             UserBase user = UserBase.builder()
                     .name("mskim")
@@ -41,12 +41,12 @@ public class RestController {
     }
 
     @RequestMapping(value = "/error", method = RequestMethod.GET)
-    public VueJsResponse error() throws Exception {
+    public ResponseEntity<VueJsResponse> error() throws Exception {
         throw new VuejsException(VuejsExceptionType.invalid_request, "custom error message");
     }
 
     @RequestMapping(value = "/error/unknown", method = RequestMethod.GET)
-    public VueJsResponse errorUnkown() throws Exception {
+    public ResponseEntity<VueJsResponse> errorUnkown() throws Exception {
         throw new ArithmeticException("by zero /");
     }
 
