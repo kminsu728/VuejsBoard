@@ -1,6 +1,9 @@
 package com.mskim.demo.web.board;
 
+import com.mskim.demo.base.model.VuejsException;
+import com.mskim.demo.base.model.VuejsExceptionType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -70,6 +73,12 @@ public class BoardController {
     public String viewPost(HttpServletRequest request,
                            @RequestParam("id") String id) {
         Post post = boardService.getPost(id);
+
+        if(post == null) {
+            throw new VuejsException(VuejsExceptionType.invalid_request);
+        };
+
+        post = boardService.addViews(post);
         request.setAttribute("post", post);
         return "post";
     }

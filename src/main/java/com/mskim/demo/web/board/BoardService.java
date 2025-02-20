@@ -42,7 +42,13 @@ public class BoardService {
                 .pid(null)
                 .build();
 
-        postRepository.insert(newPost);
+        postRepository.save(newPost);
+    }
+
+    public Post addViews(Post post){
+        post.setViews(post.getViews() + 1);
+        postRepository.save(post);
+        return post;
     }
 
     public void deletePost(String id) {
