@@ -20,4 +20,19 @@ public class UserService {
 
         return null;
     }
+
+    public User getUser(String userId) {
+        User user = userRepository.findByUserId(userId);
+        return user;
+    }
+
+    public User updateUser(String userId, String name, String email) {
+        User user = userRepository.findByUserId(userId);
+
+        user.setName(name);
+        user.setEmail(email);
+        userRepository.save(user);
+
+        return user;
+    }
 }

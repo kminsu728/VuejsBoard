@@ -37,6 +37,7 @@
             <a class="btn btn-outline-secondary" href="/signup.jsp">회원가입</a>
             <% } else { %>
             <span class="me-3 fw-bold text-dark"><%= username %> 님</span>
+            <button class="btn btn-primary me-2" onclick="openUserInfoModal()">회원정보</button>
             <button class="btn btn-danger" onclick="logout()">로그아웃</button>
             <% } %>
         </div>
@@ -44,11 +45,42 @@
 </nav>
 
 <%@ include file="login-modal.jsp" %>
+<%@ include file="user-info-modal.jsp" %>
 
 <script>
     function openLoginModal() {
         let modal = new bootstrap.Modal(document.getElementById('loginModal'));
         modal.show();
+    }
+
+    function openUserInfoModal() {
+        let modal = new bootstrap.Modal(document.getElementById('userInfoModal'));
+        modal.show();
+
+        let username = "<%= username %>";  // 서버에서 전달된 username
+
+        // 사용자 정보를 가져오는 API 호출
+        fetch("/api/user/info?username=" + username, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status == 200) {
+                    console.log(data.body.userId);
+                    console.log(data.body.name);
+                    console.log(data.body.email);
+                    console.log(data.body.role);
+                    document.getElementById("username").value = username;
+                    document.getElementById("name").value = data.body.name;
+                    document.getElementById("email").value = data.body.email;
+                    document.getElementById("role").value = data.body.role;
+                } else {
+                    alert("사용자 정보를 불러오는 데 실패했습니다.");
+                }
+            })
+            .catch(error => console.error("Error fetching user data:", error));
     }
 
     function logout() {

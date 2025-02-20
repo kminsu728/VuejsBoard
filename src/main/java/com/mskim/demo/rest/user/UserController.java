@@ -6,10 +6,7 @@ import com.mskim.demo.base.model.VuejsExceptionType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -23,6 +20,35 @@ public class UserController {
 
     public static final String AUTH_LOGIN_KEY = "___USER___";
     public static final String AUTH_ROLE_KEY = "___ROLE___";
+
+    @GetMapping("/info")
+    public ResponseEntity<VueJsResponse> getUser(HttpServletRequest request,
+                                                    @RequestParam("username") String username) {
+        User user = userService.getUser(username);
+
+        return VueJsResponse.ok(new HashMap<String, Object>(){{
+            put("userId", user.getUserId());
+            put("name", user.getName());
+            put("email", user.getEmail());
+            put("role", user.getRoles());
+        }});
+    }
+
+    @PostMapping("/info/update")
+    public ResponseEntity<VueJsResponse> infoUpdate(HttpServletRequest request,
+                                                    @RequestParam("username") String username,
+                                                    @RequestParam("name") String name,
+                                                    @RequestParam("email") String email) {
+
+        User user = userService.updateUser(username, name, email);
+
+        return VueJsResponse.ok(new HashMap<String, Object>(){{
+            put("userId", user.getUserId());
+            put("name", user.getName());
+            put("email", user.getEmail());
+        }});
+    }
+
 
     @GetMapping("/login/deprecated")
     public ResponseEntity<VueJsResponse> login(HttpServletRequest request, @RequestParam String userId, @RequestParam String password) {
