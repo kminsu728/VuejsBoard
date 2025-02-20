@@ -2,17 +2,19 @@ package com.mskim.demo.web.board;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Document
 @Data
 @Builder
 public class Post {
-    @Indexed(unique = true)
-    private long id;
+    @Id
+    @Indexed
+    private String id;
 
     private String title;
 
@@ -20,10 +22,12 @@ public class Post {
 
     private String author;
 
-    private Timestamp date;
+    private LocalDateTime date;
 
     private long views;
 
     private String type;
+
+    private String pid;
 
 }

@@ -1,11 +1,11 @@
 package com.mskim.demo.web.board;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -21,7 +21,7 @@ public class BoardController {
     public String getBoard(HttpServletRequest request,
                            @RequestParam("type") String type,
                            @RequestParam(defaultValue = "1") int page) {
-        List<Post> qnaPosts = boardService.getPost(type, page);
+        List<Post> qnaPosts = boardService.getPostList(type, page);
         request.setAttribute("posts", qnaPosts);
         request.setAttribute("type", type);
         return "board";
@@ -43,6 +43,35 @@ public class BoardController {
 
         boardService.createPost(type, title, author, content);
         return "redirect:/board?type=" + type;
+    }
+
+    @PostMapping("/deletepost")
+    public String deletePost(HttpServletRequest request,
+                             @RequestParam("type") String type,
+                             @RequestParam("id") String id,
+                             @RequestParam("author") String author) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+
+        if(isAdmin) {
+            boardService.deletePost(id);
+        } else if (author.equals(authentication.getName())){
+            boardService.deletePost(id);
+        } else {
+            throw new AccessDeniedException("You do not have permission to delete this post");
+        }
+
+        return "redirect:/board?type=" + type;
+    }
+
+    @GetMapping("/post")
+    public String viewPost(HttpServletRequest request,
+                           @RequestParam("id") String id) {
+        Post post = boardService.getPost(id);
+        request.setAttribute("post", post);
+        return "post";
     }
 
 }

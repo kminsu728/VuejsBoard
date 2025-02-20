@@ -17,10 +17,9 @@
 <main class="body">
     <div class="board-content">
         <h2><%= request.getAttribute("type") %> 게시판</h2>
-        <a class="nav-link" href="/board/createpost?type=<%= request.getAttribute("type") %>">글 작성</a>
+        <a href="/board/createpost?type=<%= request.getAttribute("type") %>">글 작성</a>
         <ul>
             <%
-                // 서버에서 넘겨준 게시글 리스트 가져오기
                 List<Post> posts = (List<Post>) request.getAttribute("posts");
 
                 if (posts != null && !posts.isEmpty()) {

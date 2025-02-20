@@ -1,3 +1,5 @@
+<%@ page import="org.springframework.security.core.Authentication" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -5,6 +7,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= request.getAttribute("type") %> 글 작성</title>
+
+    <%
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) ? auth.getName() : null;
+    %>
 </head>
 <body>
 
@@ -26,7 +33,7 @@
 
             <div class="mb-3">
                 <label for="author">작성자</label>
-                <input type="text" id="author" name="author" class="form-control" required>
+                <input type="text" id="author" name="author" class="form-control" value="<%= username %>" readonly required>
             </div>
 
             <div class="mb-3">
