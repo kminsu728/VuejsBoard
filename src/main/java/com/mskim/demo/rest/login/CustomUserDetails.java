@@ -1,6 +1,7 @@
 package com.mskim.demo.rest.login;
 
 import com.mskim.demo.rest.user.User;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,6 +14,10 @@ import java.util.stream.Collectors;
 public class CustomUserDetails implements UserDetails {
 
     private final User user;
+
+    public User getUser() {
+        return this.user;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

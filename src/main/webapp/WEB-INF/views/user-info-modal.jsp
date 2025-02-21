@@ -10,8 +10,8 @@
             <div class="modal-body">
                 <form id="userInfoForm">
                     <div class="mb-3">
-                        <label for="username" class="form-label">아이디</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="아이디 입력">
+                        <label for="userId" class="form-label">아이디</label>
+                        <input type="text" class="form-control" id="userId" name="userId" placeholder="아이디 입력" readonly>
                     </div>
 
                     <div class="mb-3">
@@ -40,16 +40,16 @@
 </div>
 <script>
     function submitUserInfo() {
-        let username = document.getElementById("username").value;
+        let userId = document.getElementById("userId").value;
         let name = document.getElementById("name").value;
         let email = document.getElementById("email").value;
 
         let params = new URLSearchParams();
-        params.append("username", username);
+        params.append("username", userId);
         params.append("name", name);
         params.append("email", email);
 
-        fetch("/user/info/update", {
+        fetch("/api/user/info/update", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: params.toString()

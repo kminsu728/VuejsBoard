@@ -20,7 +20,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         Object principal = authentication.getPrincipal();
         UserDetails userDetails = (UserDetails) principal;
 
-        // ity<VueJsResponse>를 반환하도록 변경되었다면
         ResponseEntity<VueJsResponse> responseEntity = VueJsResponse.ok(new HashMap<String, Object>(){{
             put("username", userDetails.getUsername());
         }});
