@@ -35,6 +35,7 @@ public class CommentController {
                                                      @RequestParam("id") String id,
                                                      @RequestParam(value="page", defaultValue = "1") int page) {
         List<Post> comments = commentService.getComments(id, page);
+        request.setAttribute("comments", comments);
         return VueJsResponse.ok(comments);
     }
 

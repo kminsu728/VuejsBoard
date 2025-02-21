@@ -53,9 +53,8 @@ public class BoardService {
 
     public void deletePost(String id) {
         postRepository.deleteById(id);
+        postRepository.deleteByPid(id);
     }
-
-
 
 
 }
