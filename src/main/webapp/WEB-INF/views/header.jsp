@@ -15,9 +15,11 @@
         String username = (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) ? auth.getName() : null;
 
         String nickname = "";
+        boolean isAdmin = false;
         if(auth.getPrincipal() != null && auth.getPrincipal() instanceof CustomUserDetails) {
             CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
             nickname = customUserDetails.getUser().getName();
+            isAdmin = customUserDetails.getAuthorities().toString().contains("ROLE_ADMIN");
         }
     %>
 </head>
@@ -28,13 +30,8 @@
         <a class="navbar-brand" href="/">Home</a>
 
         <div class="collapse navbar-collapse">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/board?type=qna">QnA 게시판</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/board?type=community">자유게시판</a>
-                </li>
+            <ul class="navbar-nav me-auto" id="boardList">
+                <!-- 여기에 동적으로 게시판 목록이 삽입됨 -->
             </ul>
         </div>
 
@@ -44,6 +41,9 @@
             <a class="btn btn-outline-secondary" href="/signup.jsp">회원가입</a>
             <% } else { %>
             <span class="me-3 fw-bold text-dark"><%= nickname %> 님</span>
+            <% if(isAdmin == true) { %>
+                <button class="btn btn-primary me-2" onclick="addBoardType()">게시판 생성</button>
+            <% } %>
             <button class="btn btn-primary me-2" onclick="openUserInfoModal()">회원정보</button>
             <button class="btn btn-danger" onclick="logout()">로그아웃</button>
             <% } %>
@@ -53,10 +53,16 @@
 
 <%@ include file="login-modal.jsp" %>
 <%@ include file="user-info-modal.jsp" %>
+<%@ include file="add-board-modal.jsp" %>
 
 <script>
     function openLoginModal() {
         let modal = new bootstrap.Modal(document.getElementById('loginModal'));
+        modal.show();
+    }
+
+    function addBoardType() {
+        let modal = new bootstrap.Modal(document.getElementById('addBoardModal'));
         modal.show();
     }
 
@@ -99,6 +105,42 @@
                 }
             });
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("/api/board/list")  // 백엔드 API 호출
+            .then(response => response.json())  // JSON 응답 파싱
+            .then(data => {
+                let boardList = document.getElementById("boardList");
+                boardList.innerHTML = ""; // 기존 목록 초기화
+
+                if (data.body && data.body.boards && Array.isArray(data.body.boards)) {
+                    console.log(data.body.boards)
+                    data.body.boards.forEach(board => {
+                        let li = document.createElement("li");
+                        li.className = 'nav-item';
+                        li.innerHTML = '<a class="nav-link" href="/board?type=' +
+                        board.type + '">' + board.name + '</a>';
+                        boardList.appendChild(li);
+                    });
+                } else {
+                    console.error("응답 데이터 형식이 올바르지 않습니다.");
+                }
+            })
+            .catch(error => console.error("게시판 목록을 불러오는 중 오류 발생:", error));
+    });
+
+
+    let li = document.createElement("li");
+    li.className = 'mb-3 pb-3 border-bottom';
+    li.innerHTML = '<div class="d-flex justify-content-between align-items-start">' +
+        '<div><strong>' + comment.author + '</strong>' +
+        '<p class="mb-1">' + comment.content + '</p>' +
+        '<small class="text-muted">' + comment.date + '</small>' +
+        '</div>' +
+        '<button onclick="deleteComment(\'' + comment.id + '\', \'' + comment.author + '\')" ' +
+        'class="btn btn-sm btn-secondary">삭제</button>' +
+        '</div>';
+    commentList.appendChild(li);
 </script>
 </body>
 </html>

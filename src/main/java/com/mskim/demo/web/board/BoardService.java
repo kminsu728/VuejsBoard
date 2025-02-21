@@ -17,6 +17,8 @@ public class BoardService {
 
     private final PostRepository postRepository;
 
+    private final BoardRepository boardRepository;
+
     private static final int PAGE_SIZE = 10;
 
     public List<Post> getPostList(String type, int page) {
@@ -56,5 +58,20 @@ public class BoardService {
         postRepository.deleteByPid(id);
     }
 
+    public List<Board> getBoardType() {
+        List<Board> boards = boardRepository.findAll();
+        return boards;
+    }
+
+    public void addBoardType(String type, String name) {
+        Board board = boardRepository.findByType(type);
+
+        if(board == null) {
+            board = Board.builder()
+                    .type(type)
+                    .name(name).build();
+            boardRepository.save(board);
+        }
+    }
 
 }

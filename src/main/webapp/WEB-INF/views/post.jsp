@@ -1,6 +1,7 @@
 <%@ page import="org.springframework.security.core.Authentication" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page import="com.mskim.demo.web.board.Post" %>
+<%@ page import="org.springframework.security.core.userdetails.UserDetails" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -13,8 +14,12 @@
     <%
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) ? auth.getName() : null;
+        boolean isAdmin = false;
+        if(auth.getPrincipal() != null && auth.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            isAdmin = userDetails.getAuthorities().toString().contains("ROLE_ADMIN");
+        }
         Post post = (Post) request.getAttribute("post");
-        Post comments = (Post) request.getAttribute("comments");
     %>
 
     <script>
@@ -49,7 +54,7 @@
                 </div>
             </div>
 
-            <% if (username != null && username.equals(post.getAuthor())) { %>
+            <% if (username != null && username.equals(post.getAuthor()) || isAdmin == true) { %>
                 <form action="/board/deletepost" method="post" onsubmit="return confirmDelete()" class="mb-4">
                     <input type="hidden" name="id" value="<%= post.getId() %>">
                     <input type="hidden" name="type" value="<%= post.getType() %>">

@@ -20,6 +20,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         Object principal = authentication.getPrincipal();
         UserDetails userDetails = (UserDetails) principal;
 
+        userDetails.getAuthorities();
+
         ResponseEntity<VueJsResponse> responseEntity = VueJsResponse.ok(new HashMap<String, Object>(){{
             put("username", userDetails.getUsername());
         }});
