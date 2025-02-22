@@ -59,11 +59,17 @@
     function openLoginModal() {
         let modal = new bootstrap.Modal(document.getElementById('loginModal'));
         modal.show();
+        modal._element.addEventListener('shown.bs.modal', function () {
+            document.getElementById('username').focus();
+        });
     }
 
     function addBoardType() {
         let modal = new bootstrap.Modal(document.getElementById('addBoardModal'));
         modal.show();
+        modal._element.addEventListener('shown.bs.modal', function () {
+            document.getElementById('boardtype').focus();
+        });
     }
 
     function openUserInfoModal() {
@@ -94,6 +100,10 @@
                 }
             })
             .catch(error => console.error("Error fetching user data:", error));
+
+        modal._element.addEventListener('shown.bs.modal', function () {
+            document.getElementById('name').focus();
+        });
     }
 
     function logout() {
@@ -129,18 +139,6 @@
             .catch(error => console.error("게시판 목록을 불러오는 중 오류 발생:", error));
     });
 
-
-    let li = document.createElement("li");
-    li.className = 'mb-3 pb-3 border-bottom';
-    li.innerHTML = '<div class="d-flex justify-content-between align-items-start">' +
-        '<div><strong>' + comment.author + '</strong>' +
-        '<p class="mb-1">' + comment.content + '</p>' +
-        '<small class="text-muted">' + comment.date + '</small>' +
-        '</div>' +
-        '<button onclick="deleteComment(\'' + comment.id + '\', \'' + comment.author + '\')" ' +
-        'class="btn btn-sm btn-secondary">삭제</button>' +
-        '</div>';
-    commentList.appendChild(li);
 </script>
 </body>
 </html>

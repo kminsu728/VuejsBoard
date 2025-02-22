@@ -50,6 +50,10 @@
                 } else {
                     alert("게시판 생성 실패!");
                 }
+            })
+            .catch(error => {
+                console.error('게시판 생성 실패 Exception 발생', error);
+                alert("게시판 생성 실패!");
             });
     }
 </script>

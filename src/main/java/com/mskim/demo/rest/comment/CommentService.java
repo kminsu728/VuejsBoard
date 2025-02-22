@@ -31,9 +31,16 @@ public class CommentService {
                 .date(LocalDateTime.now())
                 .views(0)
                 .pid(id)
+                .comments(0)
                 .build();
 
         postRepository.save(newPost);
+
+        Optional<Post> post = postRepository.findById(id);
+        post.ifPresent(pp -> {
+            pp.setComments(pp.getComments() + 1);
+            postRepository.save(pp);
+        });
     }
 
     public List<Post> getComments(String id, int page) {
@@ -43,6 +50,16 @@ public class CommentService {
     }
 
     public void deleteComment(String id) {
+        Optional<Post> post = postRepository.findById(id);
+
+        post.ifPresent(p -> {
+            String pid = p.getPid();
+            if (pid != null) {postRepository.findById(pid).ifPresent(pp -> {
+                pp.setComments(pp.getComments() - 1);
+                postRepository.save(pp);
+            });}
+        });
+
         postRepository.deleteById(id);
     }
 

@@ -30,4 +30,6 @@ public class Post {
 
     private String pid;
 
+    private long comments;
+
 }

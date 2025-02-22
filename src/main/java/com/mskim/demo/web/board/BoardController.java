@@ -25,8 +25,10 @@ public class BoardController {
                            @RequestParam("type") String type,
                            @RequestParam(defaultValue = "1") int page) {
         List<Post> qnaPosts = boardService.getPostList(type, page);
+        int totalpage = boardService.getTotalPostCount(type);
         request.setAttribute("posts", qnaPosts);
         request.setAttribute("type", type);
+        request.setAttribute("totalpage", totalpage);
         return "board";
     }
 
@@ -63,7 +65,8 @@ public class BoardController {
         } else if (author.equals(authentication.getName())){
             boardService.deletePost(id);
         } else {
-            throw new AccessDeniedException("You do not have permission to delete this post");
+            request.setAttribute("errorMessage", "post 삭제에 실패했습니다.");
+            return "error";
         }
 
         return "redirect:/board?type=" + type;
@@ -75,7 +78,8 @@ public class BoardController {
         Post post = boardService.getPost(id);
 
         if(post == null) {
-            throw new VuejsException(VuejsExceptionType.invalid_request);
+            request.setAttribute("errorMessage", "잘못된 post 경로입니다.");
+            return "error";
         };
 
         post = boardService.addViews(post);

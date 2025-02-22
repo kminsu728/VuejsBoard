@@ -48,7 +48,8 @@
                         <th scope="col" width="50%">제목</th>
                         <th scope="col" width="10%">작성자</th>
                         <th scope="col" width="20%">작성일</th>
-                        <th scope="col" width="20%">조회수</th>
+                        <th scope="col" width="10%">조회수</th>
+                        <th scope="col" width="10%">댓글수</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,6 +69,7 @@
                         <td><%= post.getAuthor() %></td>
                         <td><%= post.getDate() %></td>
                         <td><%= post.getViews() %></td>
+                        <td><%= post.getComments() %></td>
                     </tr>
                     <%
                             }
@@ -97,15 +99,28 @@
                             }
                         }
 
+                        int totalPages = (int) request.getAttribute("totalpage"); // 총 페이지 수를 설정하세요
+                        int startPage = Math.max(currentPage - 2, 1);
+                        int endPage = Math.min(currentPage + 2, totalPages);
+
                         if (currentPage > 1) {
                     %>
                     <li class="page-item">
                         <a class="page-link" href="/board?type=<%= request.getAttribute("type") %>&page=<%= currentPage - 1 %>">이전</a>
                     </li>
                     <% } %>
+
+                    <% for (int i = startPage; i <= endPage; i++) { %>
+                    <li class="page-item <%= (i == currentPage) ? "active" : "" %>">
+                        <a class="page-link" href="/board?type=<%= request.getAttribute("type") %>&page=<%= i %>"><%= i %></a>
+                    </li>
+                    <% } %>
+
+                    <% if (currentPage < totalPages) { %>
                     <li class="page-item">
                         <a class="page-link" href="/board?type=<%= request.getAttribute("type") %>&page=<%= currentPage + 1 %>">다음</a>
                     </li>
+                    <% } %>
                 </ul>
             </nav>
         </div>

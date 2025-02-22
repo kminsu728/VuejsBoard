@@ -22,14 +22,37 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="submitLogin()">확인</button>
+                <button type="button" class="btn btn-success" onclick="validateForm()">확인</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
             </div>
         </div>
     </div>
 </div>
-
 <script>
+
+    function validateForm() {
+        const username = document.getElementById('username');
+        const password = document.getElementById('password');
+
+
+        console.log(username);
+        console.log(password);
+        // 유효성 검사
+        if (!username.value) {
+            alert("아이디를 입력하세요.");
+            username.focus();
+            return false;
+        }
+
+        if (!password.value) {
+            alert("비밀번호를 입력하세요.");
+            password.focus();
+            return false;
+        }
+
+        submitLogin();
+    }
+
     function submitLogin() {
         let username = document.getElementById("username").value;
         let password = document.getElementById("password").value;

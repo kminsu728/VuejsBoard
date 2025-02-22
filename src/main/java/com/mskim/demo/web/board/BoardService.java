@@ -27,6 +27,15 @@ public class BoardService {
         return postPage.getContent();
     }
 
+    public int getTotalPostCount(String type) {
+        int totalpage = 1;
+        int totalcount = postRepository.countByType(type);
+        if(totalcount > 0) {
+            totalpage += (totalcount - 1) / PAGE_SIZE;
+        }
+        return totalpage;
+    }
+
     public Post getPost(String id) {
         Optional<Post> post = postRepository.findById(id);
         if(post.isPresent()) return post.get();
@@ -42,6 +51,7 @@ public class BoardService {
                 .date(LocalDateTime.now())
                 .views(0)
                 .pid(null)
+                .comments(0)
                 .build();
 
         postRepository.save(newPost);

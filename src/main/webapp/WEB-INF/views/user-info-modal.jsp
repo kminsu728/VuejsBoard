@@ -39,6 +39,7 @@
     </div>
 </div>
 <script>
+
     function submitUserInfo() {
         let userId = document.getElementById("userId").value;
         let name = document.getElementById("name").value;

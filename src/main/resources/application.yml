@@ -11,7 +11,7 @@ server:
 
 datasource:
   mongodb:
-    host: 192.168.60.20
+    host: 127.0.0.1
     port: 27017
     database: VUEJS
     username: vuejs

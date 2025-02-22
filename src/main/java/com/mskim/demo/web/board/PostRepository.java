@@ -14,4 +14,6 @@ public interface PostRepository extends MongoRepository<Post, String> {
     Page<Post> findByTypeAndPid(String type, String pid, Pageable pageable);
 
     void deleteByPid(String pid);
+
+    int countByType(String type);
 }
