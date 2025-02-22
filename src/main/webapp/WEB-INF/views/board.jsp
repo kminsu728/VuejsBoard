@@ -11,6 +11,7 @@
     <title><%= request.getAttribute("type") %> 게시판</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <%
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -27,7 +28,7 @@
     <div class="row">
         <div class="col-12">
             <h2 class="mb-4"><%= request.getAttribute("type") %> 게시판</h2>
-            
+
             <div class="d-flex justify-content-end mb-3">
 
                 <% if (username != null) { %>
@@ -55,11 +56,15 @@
                 <tbody>
                     <%
                         List<Post> posts = (List<Post>) request.getAttribute("posts");
+                        String searchKeyword = request.getParameter("searchKeyword");
                         if (posts != null && !posts.isEmpty()) {
+                            boolean hasResults = false;
                             for (Post post : posts) {
+                                if (searchKeyword == null || post.getTitle().toLowerCase().contains(searchKeyword.toLowerCase())) {
+                                    hasResults = true;
                     %>
                     <tr>
-<%--                        <td><%= post.getId() %></td>--%>
+                        <%--                        <td><%= post.getId() %></td>--%>
                         <td>
                             <a href="/board/post?id=<%= post.getId() %>&type=<%= request.getAttribute("type") %>"
                                class="text-decoration-none text-dark">
@@ -70,6 +75,14 @@
                         <td><%= post.getDate() %></td>
                         <td><%= post.getViews() %></td>
                         <td><%= post.getComments() %></td>
+                    </tr>
+                    <%
+                                }
+                            }
+                            if (!hasResults) {
+                    %>
+                    <tr>
+                        <td colspan="5" class="text-center">검색 결과가 없습니다.</td>
                     </tr>
                     <%
                             }
@@ -83,6 +96,18 @@
                     %>
                 </tbody>
             </table>
+
+            <form action="/board/search" method="get" class="mb-3 d-flex"
+                  style="width: 30%; margin-left: auto; justify-content: flex-end;"
+                  onsubmit="return validateSearch()">
+                <input type="hidden" name="type" value="<%= request.getAttribute("type") %>">
+                <input type="text" name="searchKeyword" id="searchKeyword" class="form-control me-2"
+                       placeholder="검색어를 입력하세요"
+                       value="<%= request.getParameter("searchKeyword") != null ? request.getParameter("searchKeyword") : "" %>">
+                <button type="submit" class="btn btn-outline-primary">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
 
             <nav aria-label="Page navigation" class="mt-4">
                 <ul class="pagination justify-content-center">
@@ -129,7 +154,16 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+<script>
+    function validateSearch() {
+        let keyword = document.getElementById("searchKeyword").value.trim();
+        if (keyword === "") {
+            alert("검색어를 입력하세요.");
+            return false;  // 폼 제출 방지
+        }
+        return true;  // 폼 제출 실행
+    }
+</script>
 <footer class="footer fixed-bottom">
     <jsp:include page="footer.jsp" />
 </footer>

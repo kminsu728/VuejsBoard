@@ -27,6 +27,12 @@ public class BoardService {
         return postPage.getContent();
     }
 
+    public List<Post> getSearchPostList(String type, String title, int page) {
+        PageRequest pageable = PageRequest.of(page - 1, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "date"));
+        Page<Post> postPage = postRepository.findByTypeAndTitleContaining(type, title, pageable);
+        return postPage.getContent();
+    }
+
     public int getTotalPostCount(String type) {
         int totalpage = 1;
         int totalcount = postRepository.countByType(type);
@@ -42,6 +48,7 @@ public class BoardService {
         return null;
     }
 
+
     public void createPost(String type, String title, String author, String content){
         Post newPost = Post.builder()
                 .type(type)
@@ -55,6 +62,18 @@ public class BoardService {
                 .build();
 
         postRepository.save(newPost);
+    }
+
+    public void updatePost(String type, String id, String title, String content){
+        Optional<Post> post = postRepository.findById(id);
+
+        if(post.isPresent()) {
+            Post newPost = post.get();
+            newPost.setTitle(title);
+            newPost.setContent(content);
+
+            postRepository.save(newPost);
+        }
     }
 
     public Post addViews(Post post){

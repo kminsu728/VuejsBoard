@@ -24,9 +24,9 @@ public class BoardController {
     public String getBoard(HttpServletRequest request,
                            @RequestParam("type") String type,
                            @RequestParam(defaultValue = "1") int page) {
-        List<Post> qnaPosts = boardService.getPostList(type, page);
+        List<Post> posts = boardService.getPostList(type, page);
         int totalpage = boardService.getTotalPostCount(type);
-        request.setAttribute("posts", qnaPosts);
+        request.setAttribute("posts", posts);
         request.setAttribute("type", type);
         request.setAttribute("totalpage", totalpage);
         return "board";
@@ -72,6 +72,16 @@ public class BoardController {
         return "redirect:/board?type=" + type;
     }
 
+    @PostMapping("updatepost")
+    public String updatePost(HttpServletRequest request,
+                             @RequestParam("type") String type,
+                             @RequestParam("id") String id,
+                             @RequestParam("title") String title,
+                             @RequestParam("content") String content) {
+        boardService.updatePost(type, id, title, content);
+        return "redirect:/board?type=" + type;
+    }
+
     @GetMapping("/post")
     public String viewPost(HttpServletRequest request,
                            @RequestParam("id") String id) {
@@ -85,6 +95,19 @@ public class BoardController {
         post = boardService.addViews(post);
         request.setAttribute("post", post);
         return "post";
+    }
+
+    @GetMapping("/search")
+    public String searchPost(HttpServletRequest request,
+                             @RequestParam("type") String type,
+                             @RequestParam("searchKeyword") String searchKeyword) {
+        List<Post> posts = boardService.getSearchPostList(type, searchKeyword, 1);
+
+        int totalpage = boardService.getTotalPostCount(type);
+        request.setAttribute("posts", posts);
+        request.setAttribute("type", type);
+        request.setAttribute("totalpage", totalpage);
+        return "board";
     }
 
 }
