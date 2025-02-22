@@ -7,6 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= request.getAttribute("type") %> 글 작성</title>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
     <%
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -46,6 +49,23 @@
         </form>
     </div>
 </main>
+
+<script>
+    $(document).ready(function() {
+        $('#content').summernote({
+            height: 300,  // 에디터 높이
+            placeholder: '여기에 내용을 입력하세요...',
+            tabsize: 2,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview']]
+            ]
+        });
+    });
+</script>
 
 <footer class="footer fixed-bottom">
     <jsp:include page="footer.jsp" />

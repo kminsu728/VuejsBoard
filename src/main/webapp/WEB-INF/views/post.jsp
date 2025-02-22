@@ -11,6 +11,10 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
     <%
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) ? auth.getName() : null;
@@ -117,6 +121,23 @@
     </div>
 </main>
 
+<script>
+    $(document).ready(function() {
+        $('#comment-content').summernote({
+            height: 100,  // 에디터 높이
+            placeholder: '여기에 내용을 입력하세요...',
+            tabsize: 2,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview']]
+            ]
+        });
+    });
+</script>
+
 <footer class="footer mt-5">
     <jsp:include page="footer.jsp" />
 </footer>
@@ -198,8 +219,9 @@
                 console.log(data);
                 if (data.status == 200) {
                     document.getElementById("comment-author").value = "<%=username%>";
-                    document.getElementById("comment-content").value = "";
-                    loadComments(currentPage); // 댓글 다시 로드
+                    //document.getElementById("comment-content").value = "";
+                    $('#comment-content').summernote('reset');
+                    loadComments(currentPage);
                 } else {
                     alert("댓글 등록 실패");
                 }
