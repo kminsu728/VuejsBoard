@@ -46,11 +46,10 @@
                 <thead class="table-light">
                     <tr>
 <%--                        <th scope="col" width="10%">번호</th>--%>
-                        <th scope="col" width="50%">제목</th>
+                        <th scope="col" width="60%">제목</th>
                         <th scope="col" width="10%">작성자</th>
                         <th scope="col" width="20%">작성일</th>
                         <th scope="col" width="10%">조회수</th>
-                        <th scope="col" width="10%">댓글수</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,13 +67,12 @@
                         <td>
                             <a href="/board/post?id=<%= post.getId() %>&type=<%= request.getAttribute("type") %>"
                                class="text-decoration-none text-dark">
-                                <%= post.getTitle() %>
+                                <%= post.getTitle() %> <% if(post.getComments() > 0) { %> [<%= post.getComments() %>] <% } %>
                             </a>
                         </td>
                         <td><%= post.getAuthor() %></td>
                         <td><%= post.getDate() %></td>
                         <td><%= post.getViews() %></td>
-                        <td><%= post.getComments() %></td>
                     </tr>
                     <%
                                 }
