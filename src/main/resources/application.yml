@@ -26,5 +26,12 @@ datasource:
     request-timeout: 30000
     session-timeout: 60000
 
+hazelcast:
+  cluster-name: vuejs-cluster
+  address: 127.0.0.1
+  port: 5701
+  cache-map-names: getPost,getPostList,getSearchPostList
+
+
 vuejs:
   rest-url: http://localhost:8080

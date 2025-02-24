@@ -44,6 +44,9 @@ dependencies {
     implementation 'com.influxdb:influxdb-client-java:6.12.0'
     implementation 'com.github.luben:zstd-jni:1.5.5-5'
 
+    // cache ( hazelcast )
+    implementation 'com.hazelcast:hazelcast:5.0'
+
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

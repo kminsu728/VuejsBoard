@@ -3,6 +3,8 @@ package com.mskim.demo.web.board;
 import com.mskim.demo.base.model.VuejsException;
 import com.mskim.demo.base.model.VuejsExceptionType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -50,6 +52,7 @@ public class BoardController {
         return "redirect:/board?type=" + type;
     }
 
+    @CacheEvict(value = "postList", key = "#id")
     @PostMapping("/deletepost")
     public String deletePost(HttpServletRequest request,
                              @RequestParam("type") String type,
@@ -72,6 +75,7 @@ public class BoardController {
         return "redirect:/board?type=" + type;
     }
 
+    @CacheEvict(value = "postList", key = "#id")
     @PostMapping("updatepost")
     public String updatePost(HttpServletRequest request,
                              @RequestParam("type") String type,
@@ -82,6 +86,7 @@ public class BoardController {
         return "redirect:/board?type=" + type;
     }
 
+    @Cacheable(value = "postList", key = "#id")
     @GetMapping("/post")
     public String viewPost(HttpServletRequest request,
                            @RequestParam("id") String id) {
