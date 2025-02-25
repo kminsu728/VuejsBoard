@@ -1,5 +1,10 @@
 package com.mskim.demo.rest.message;
 
+import com.mskim.demo.rest.board.BoardRestService;
+import com.mskim.demo.rest.comment.CommentService;
+import com.mskim.demo.web.board.Board;
+import com.mskim.demo.web.post.Post;
+import com.mskim.demo.web.post.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -10,36 +15,55 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class QueueConsumer {
 
+    private final PostService postService;
+    private final CommentService commentService;
+    private final BoardRestService boardRestService;
+
     @RabbitListener(queues = "${services.rabbitmq.queue-name}")
     public void receive(QueueMessage message) {
         QueueMessageType messageType = message.getQueueMessageType();
 
+        log.debug("Queue Consumer: message type is {}", messageType);
         switch (messageType) {
-            case CREATE_POST:
-                log.info("CREATE_POST");
+            case CREATE_POST: {
+                Post post = (Post) message.getArgs();
+                postService.createPost(post.getType(), post.getTitle(), post.getAuthor(), post.getContent());
                 break;
-            case DELETE_POST:
-                log.info("DELETE_POST");
+            }
+            case DELETE_POST: {
+                Post post = (Post) message.getArgs();
+                postService.deletePost(post.getId());
                 break;
-            case UPDATE_POST:
-                log.info("UPDATE_POST");
+            }
+            case UPDATE_POST: {
+                Post post = (Post) message.getArgs();
+                postService.updatePost(post.getType(), post.getId(), post.getTitle(), post.getContent());
                 break;
-            case ADD_COMMENT:
-                log.info("ADD_COMMENT");
+            }
+            case ADD_COMMENT: {
+                Post comment = (Post) message.getArgs();
+                commentService.addComment(comment.getPid(), comment.getAuthor(), comment.getContent());
                 break;
-            case DELETE_COMMENT:
-                log.info("DELETE_COMMENT");
+            }
+            case DELETE_COMMENT: {
+                Post comment = (Post) message.getArgs();
+                commentService.deleteComment(comment.getId());
                 break;
-            case CREATE_BOARD:
-                log.info("CREATE_BOARD");
+            }
+            case CREATE_BOARD: {
+                Board board = (Board) message.getArgs();
+                boardRestService.createBoard(board.getType(), board.getName());
                 break;
-            case INCREASE_VIEWS:
-                log.info("INCREASE_VIEWS");
+            }
+            case INCREASE_VIEWS: {
+                Post post = (Post) message.getArgs();
+                postService.increaseViews(post);
                 break;
-            default:
+            }
+            default: {
                 log.error("Unknown message type: {}", messageType);
                 break;
-
+            }
         }
     }
 
