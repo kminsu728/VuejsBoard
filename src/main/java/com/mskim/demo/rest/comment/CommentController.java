@@ -3,6 +3,7 @@ package com.mskim.demo.rest.comment;
 import com.mskim.demo.base.model.VueJsResponse;
 import com.mskim.demo.web.post.Post;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;

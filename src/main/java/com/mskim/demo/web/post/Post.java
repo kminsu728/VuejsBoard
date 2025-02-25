@@ -6,12 +6,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Document
 @Data
 @Builder
-public class Post {
+public class Post implements Serializable {
     @Id
     @Indexed
     private String id;

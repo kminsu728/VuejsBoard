@@ -1,6 +1,8 @@
 package com.mskim.demo.web.post;
 
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,6 +14,7 @@ public class PostService {
 
     PostRepository postRepository;
 
+    @Cacheable(value = "post", key = "#id")
     public Post getPost(String id) {
         Optional<Post> post = postRepository.findById(id);
         if(post.isPresent()) return post.get();
@@ -39,11 +42,13 @@ public class PostService {
         postRepository.save(newPost);
     }
 
+    @CacheEvict(value = "post", key = "#id")
     public void deletePost(String id) {
         postRepository.deleteById(id);
         postRepository.deleteByPid(id);
     }
 
+    @CacheEvict(value = "post", key = "#id")
     public void updatePost(String type, String id, String title, String content){
         Optional<Post> post = postRepository.findById(id);
 

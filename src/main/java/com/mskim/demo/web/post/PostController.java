@@ -22,8 +22,6 @@ public class PostController {
     private final BoardService boardService;
     private final PostService postService;
 
-
-    @Cacheable(value = "postList", key = "#id")
     @GetMapping()
     public String get(HttpServletRequest request,
                            @RequestParam("id") String id) {
@@ -57,7 +55,6 @@ public class PostController {
         return "redirect:/board?type=" + type;
     }
 
-    @CacheEvict(value = "postList", key = "#id")
     @PostMapping("/delete")
     public String delete(HttpServletRequest request,
                              @RequestParam("type") String type,
@@ -80,7 +77,6 @@ public class PostController {
         return "redirect:/board?type=" + type;
     }
 
-    @CacheEvict(value = "postList", key = "#id")
     @PostMapping("update")
     public String update(HttpServletRequest request,
                              @RequestParam("type") String type,
