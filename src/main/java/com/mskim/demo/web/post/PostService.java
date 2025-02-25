@@ -21,7 +21,7 @@ public class PostService {
         return null;
     }
 
-    public Post addViews(Post post){
+    public Post increaseViews(Post post){
         post.setViews(post.getViews() + 1);
         postRepository.save(post);
         return post;

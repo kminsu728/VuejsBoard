@@ -16,13 +16,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 public class HazelcastConfiguration {
 
-    @Value("${hazelcast.cluster-name}")
+    @Value("${services.hazelcast.cluster-name}")
     private String clusterName;
 
-    @Value("${hazelcast.address}")
+    @Value("${services.hazelcast.address}")
     private String address;
 
-    @Value("${hazelcast.port}")
+    @Value("${services.hazelcast.port}")
     private String port;
 
     @Bean

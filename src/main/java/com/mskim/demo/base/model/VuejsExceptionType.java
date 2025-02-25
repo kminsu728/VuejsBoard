@@ -5,11 +5,12 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum VuejsExceptionType {
-    invalid_request(HttpStatus.BAD_REQUEST, "invalid_request", "invalid_request", "A0400"),
-    server_error(HttpStatus.INTERNAL_SERVER_ERROR, "internal_server_error", "internal_server_error", "A0500"),
-    data_initialize_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "data_initialize_fail", "A1000"),
-    login_fail(HttpStatus.BAD_REQUEST, "invalid_request", "login_fail", "A1001"),
-    logout_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "logout_fail", "A1002");
+    invalid_request(HttpStatus.BAD_REQUEST, "invalid_request", "invalid request", "A0400"),
+    server_error(HttpStatus.INTERNAL_SERVER_ERROR, "internal_server_error", "internal server error", "A0500"),
+    data_initialize_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "data initialize fail", "A1000"),
+    login_fail(HttpStatus.BAD_REQUEST, "invalid_request", "login fail", "A1001"),
+    logout_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "logout fail", "A1002"),
+    queue_producer_error(HttpStatus.BAD_REQUEST, "queue_producer_error", "queue producer error", "A2000");
 
     private HttpStatus status;
     private String title;

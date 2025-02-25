@@ -1,5 +1,7 @@
 package com.mskim.demo.web.post;
 
+import com.mskim.demo.rest.message.QueueMessageType;
+import com.mskim.demo.rest.message.QueueProducer;
 import com.mskim.demo.web.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -19,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class PostController {
 
-    private final BoardService boardService;
+    private final QueueProducer queueProducer;
     private final PostService postService;
 
     @GetMapping()
@@ -32,7 +34,7 @@ public class PostController {
             return "error";
         };
 
-        post = postService.addViews(post);
+        post = postService.increaseViews(post);
         request.setAttribute("post", post);
         return "post";
     }
@@ -50,6 +52,9 @@ public class PostController {
                              @RequestParam("title") String title,
                              @RequestParam("author") String author,
                              @RequestParam("content") String content) {
+
+//        queueProducer.sentToQueue(QueueMessageType.CREATE_POST,
+//                Post.builder().type(type).title(title).build());
 
         postService.createPost(type, title, author, content);
         return "redirect:/board?type=" + type;

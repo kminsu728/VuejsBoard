@@ -14,28 +14,28 @@ import java.util.concurrent.TimeUnit;
 //@Configuration
 public class InfluxConfiguration {
 
-    @Value("${datasource.influxdb.url}")
+    @Value("${services.influxdb.url}")
     private String url;
 
-    @Value("${datasource.influxdb.token}")
+    @Value("${services.influxdb.token}")
     private String token;
 
-    @Value("${datasource.influxdb.bucket}")
+    @Value("${services.influxdb.bucket}")
     private String bucket;
 
-    @Value("${datasource.influxdb.org}")
+    @Value("${services.influxdb.org}")
     private String org;
 
-    @Value("${datasource.influxdb.max-connections:10}") // 기본값 10
+    @Value("${services.influxdb.max-connections:10}") // 기본값 10
     private int maxConnections;
 
-    @Value("${datasource.influxdb.wait-idle-close-ttl:60000}") // 기본값 60초
+    @Value("${services.influxdb.wait-idle-close-ttl:60000}") // 기본값 60초
     private long waitIdleCloseTtl;
 
-    @Value("${datasource.influxdb.request-timeout:30000}") // 기본값 30초
+    @Value("${services.influxdb.request-timeout:30000}") // 기본값 30초
     private long requestTimeout;
 
-    @Value("${datasource.influxdb.session-timeout:60000}") // 기본값 60초
+    @Value("${services.influxdb.session-timeout:60000}") // 기본값 60초
     private long sessionTimeout;
 
     @Bean

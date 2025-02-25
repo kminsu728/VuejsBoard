@@ -48,6 +48,9 @@ dependencies {
     implementation 'com.hazelcast:hazelcast:5.0'
     implementation 'com.hazelcast:hazelcast-spring:5.0'
 
+    // rabbitMQ
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

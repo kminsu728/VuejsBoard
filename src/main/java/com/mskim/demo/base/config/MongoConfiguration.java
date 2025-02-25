@@ -15,19 +15,19 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 @RequiredArgsConstructor
 public class MongoConfiguration {
 
-    @Value("${datasource.mongodb.host}")
+    @Value("${services.mongodb.host}")
     private String host;
 
-    @Value("${datasource.mongodb.port}")
+    @Value("${services.mongodb.port}")
     private String port;
 
-    @Value("${datasource.mongodb.database}")
+    @Value("${services.mongodb.database}")
     private String database;
 
-    @Value("${datasource.mongodb.username}")
+    @Value("${services.mongodb.username}")
     private String username;
 
-    @Value("${datasource.mongodb.password}")
+    @Value("${services.mongodb.password}")
     private String password;
 
     private int connectTimeoutMS = 3000;
