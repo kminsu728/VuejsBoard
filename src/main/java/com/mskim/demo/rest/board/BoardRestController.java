@@ -2,7 +2,6 @@ package com.mskim.demo.rest.board;
 
 import com.mskim.demo.base.model.VueJsResponse;
 import com.mskim.demo.web.board.Board;
-import com.mskim.demo.web.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -19,21 +18,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardRestController {
 
-    private final BoardService boardService;
-
+    private final BoardRestService boardRestService;
 
     @GetMapping("/list")
-    public ResponseEntity<VueJsResponse> getType(HttpServletRequest request) {
-        List<Board> boards = boardService.getBoardType();
+    public ResponseEntity<VueJsResponse> getList(HttpServletRequest request) {
+        List<Board> boards = boardRestService.getBoard();
 
         return VueJsResponse.ok(new HashMap<String, Object>(){{
             put("boards", boards);
         }});
     }
 
-
-    @PostMapping("/createtype")
-    public ResponseEntity<VueJsResponse> createType(HttpServletRequest request,
+    @PostMapping("/create")
+    public ResponseEntity<VueJsResponse> create(HttpServletRequest request,
                                                     @RequestParam("type") String type,
                                                     @RequestParam("name") String name) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -42,7 +39,7 @@ public class BoardRestController {
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
 
         if(isAdmin) {
-            boardService.addBoardType(type, name);
+            boardRestService.createBoard(type, name);
         } else {
             throw new AccessDeniedException("You do not have permission to add Board");
         }

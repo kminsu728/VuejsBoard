@@ -1,4 +1,4 @@
-package com.mskim.demo.web.board;
+package com.mskim.demo.web.post;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.mskim.demo.web.board.Post" %>
+<%@ page import="com.mskim.demo.web.post.Post" %>
 <%@ page import="org.springframework.security.core.Authentication" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <!DOCTYPE html>
@@ -32,7 +32,7 @@
             <div class="d-flex justify-content-end mb-3">
 
                 <% if (username != null) { %>
-                <a href="/board/createpost?type=<%= request.getAttribute("type") %>" 
+                <a href="/post/create?type=<%= request.getAttribute("type") %>"
                    class="btn btn-primary">글 작성</a>
                    <% } else { %>
                     <button type="button" 
@@ -65,7 +65,7 @@
                     <tr>
                         <%--                        <td><%= post.getId() %></td>--%>
                         <td>
-                            <a href="/board/post?id=<%= post.getId() %>&type=<%= request.getAttribute("type") %>"
+                            <a href="/post?id=<%= post.getId() %>&type=<%= request.getAttribute("type") %>"
                                class="text-decoration-none text-dark">
                                 <%= post.getTitle() %> <% if(post.getComments() > 0) { %> [<%= post.getComments() %>] <% } %>
                             </a>

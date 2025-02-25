@@ -1,6 +1,6 @@
 <%@ page import="org.springframework.security.core.Authentication" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="com.mskim.demo.web.board.Post" %>
+<%@ page import="com.mskim.demo.web.post.Post" %>
 <%@ page import="org.springframework.security.core.userdetails.UserDetails" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -59,7 +59,7 @@
             </div>
 
             <% if (username != null && username.equals(post.getAuthor()) || isAdmin == true) { %>
-                <form action="/board/deletepost" method="post" onsubmit="return confirmDelete()" class="mb-4">
+                <form action="/post/delete" method="post" onsubmit="return confirmDelete()" class="mb-4">
                     <input type="hidden" name="id" value="<%= post.getId() %>">
                     <input type="hidden" name="type" value="<%= post.getType() %>">
                     <input type="hidden" name="author" value="<%= post.getAuthor() %>">
@@ -209,7 +209,7 @@
         params.append("author", author);
         params.append("content", content);
 
-        fetch("/api/comment/addcomment", {
+        fetch("/api/comment/add", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: params.toString()

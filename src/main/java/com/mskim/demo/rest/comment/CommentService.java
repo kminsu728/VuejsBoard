@@ -1,8 +1,7 @@
 package com.mskim.demo.rest.comment;
 
-import com.mskim.demo.rest.user.User;
-import com.mskim.demo.web.board.Post;
-import com.mskim.demo.web.board.PostRepository;
+import com.mskim.demo.web.post.Post;
+import com.mskim.demo.web.post.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,7 +42,7 @@ public class CommentService {
         });
     }
 
-    public List<Post> getComments(String id, int page) {
+    public List<Post> getCommentList(String id, int page) {
         PageRequest pageable = PageRequest.of(page - 1, PAGE_SIZE, Sort.by(Sort.Direction.ASC, "date"));
         Page<Post> postPage = postRepository.findByTypeAndPid(TYPE, id, pageable);
         return postPage.getContent();
@@ -51,16 +50,16 @@ public class CommentService {
 
     public void deleteComment(String id) {
         Optional<Post> post = postRepository.findById(id);
+        postRepository.deleteById(id);
 
         post.ifPresent(p -> {
             String pid = p.getPid();
-            if (pid != null) {postRepository.findById(pid).ifPresent(pp -> {
-                pp.setComments(pp.getComments() - 1);
-                postRepository.save(pp);
-            });}
+            if (pid != null) {
+                postRepository.findById(pid).ifPresent(pp -> {
+                    pp.setComments(pp.getComments() - 1);
+                    postRepository.save(pp);
+                });}
         });
-
-        postRepository.deleteById(id);
     }
 
 }

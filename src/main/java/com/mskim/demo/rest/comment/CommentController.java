@@ -1,7 +1,7 @@
 package com.mskim.demo.rest.comment;
 
 import com.mskim.demo.base.model.VueJsResponse;
-import com.mskim.demo.web.board.Post;
+import com.mskim.demo.web.post.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -21,26 +21,28 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/addcomment")
-    public ResponseEntity<VueJsResponse> addComment(HttpServletRequest request,
+    @PostMapping("/add")
+    public ResponseEntity<VueJsResponse> add(HttpServletRequest request,
                                         @RequestParam("id") String id,
                                         @RequestParam("author") String author,
                                         @RequestParam("content") String content) {
         commentService.addComment(id, author, content);
-        return VueJsResponse.ok(null);
+        return VueJsResponse.ok(new HashMap<String, Object>(){{
+            put("id", id);
+        }});
     }
 
     @GetMapping("/list")
-    public ResponseEntity<VueJsResponse> getComments(HttpServletRequest request,
+    public ResponseEntity<VueJsResponse> getList(HttpServletRequest request,
                                                      @RequestParam("id") String id,
                                                      @RequestParam(value="page", defaultValue = "1") int page) {
-        List<Post> comments = commentService.getComments(id, page);
+        List<Post> comments = commentService.getCommentList(id, page);
         request.setAttribute("comments", comments);
         return VueJsResponse.ok(comments);
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<VueJsResponse> deleteComment(HttpServletRequest request,
+    public ResponseEntity<VueJsResponse> delete(HttpServletRequest request,
                                                        @RequestParam("id") String id,
                                                        @RequestParam("author") String author) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

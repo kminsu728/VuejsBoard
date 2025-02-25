@@ -26,7 +26,7 @@
     <div class="createpost-content">
         <h2><%= request.getParameter("type") %> 게시판 - 글 작성</h2>
 
-        <form action="/board/createpost" method="post">
+        <form action="/post/create" method="post">
             <input type="hidden" name="type" value="<%= request.getParameter("type") %>">
 
             <div class="mb-3">

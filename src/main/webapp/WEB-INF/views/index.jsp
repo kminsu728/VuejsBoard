@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.mskim.demo.web.board.Post" %>
+<%@ page import="com.mskim.demo.web.post.Post" %>
 <%@ page import="java.util.Map" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -40,7 +40,7 @@
                                 for (Post post : posts) {
                         %>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="/board/post?id=<%= post.getId() %>&type=<%= type %>"
+                            <a href="/post?id=<%= post.getId() %>&type=<%= type %>"
                                class="text-decoration-none text-dark text-truncate"
                                style="max-width: 70%;">
                                 <%= post.getTitle() %>

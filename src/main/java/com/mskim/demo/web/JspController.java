@@ -1,7 +1,7 @@
 package com.mskim.demo.web;
 
 import com.mskim.demo.web.board.BoardService;
-import com.mskim.demo.web.board.Post;
+import com.mskim.demo.web.post.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

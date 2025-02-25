@@ -37,7 +37,7 @@
         params.append("type", boardtype);
         params.append("name", boardname);
 
-        fetch("/api/board/createtype", {
+        fetch("/api/board/create", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: params.toString()
