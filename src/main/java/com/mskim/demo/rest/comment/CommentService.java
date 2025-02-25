@@ -21,7 +21,7 @@ public class CommentService {
     private static final int PAGE_SIZE = 10;
     private static final String TYPE = "comment";
 
-    public void addComment(String id, String author, String content) {
+    public void addComment(String pid, String author, String content) {
         Post newPost = Post.builder()
                 .type("comment")
                 .title(null)
@@ -29,13 +29,13 @@ public class CommentService {
                 .content(content)
                 .date(LocalDateTime.now())
                 .views(0)
-                .pid(id)
+                .pid(pid)
                 .comments(0)
                 .build();
 
         postRepository.save(newPost);
 
-        Optional<Post> post = postRepository.findById(id);
+        Optional<Post> post = postRepository.findById(pid);
         post.ifPresent(pp -> {
             pp.setComments(pp.getComments() + 1);
             postRepository.save(pp);

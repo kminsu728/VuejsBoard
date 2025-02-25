@@ -34,6 +34,9 @@ services:
     port: 5672
     username: khan
     password: opennaru12#$
+    exchange-name: vue.direct
+    queue-name: vue.queue
+    routing-key: vue.key
 
 vuejs:
   rest-url: http://localhost:8080

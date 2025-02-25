@@ -2,7 +2,9 @@ package com.mskim.demo.rest.message;
 
 import lombok.Getter;
 
-public class QueueMessage {
+import java.io.Serializable;
+
+public class QueueMessage implements Serializable {
     @Getter
     QueueMessageType queueMessageType;
 

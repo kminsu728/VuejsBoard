@@ -1,6 +1,8 @@
 package com.mskim.demo.base.config;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -8,26 +10,29 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Getter
+@Setter
+@Component
+@ConfigurationProperties(prefix = "services.rabbitmq")
 @RequiredArgsConstructor
 public class RabbitmqConfiguration {
-
-
-    @Value("${services.rabbitmq.host}")
     private String host;
 
-    @Value("${services.rabbitmq.port}")
     private int port;
 
-    @Value("${services.rabbitmq.username}")
     private String username;
 
-    @Value("${services.rabbitmq.password}")
     private String password;
+
+    private String exchangeName;
+
+    private String queueName;
+
+    private String routingKey;
 
     @Bean
     public ConnectionFactory connectionFactory() {
@@ -44,17 +49,17 @@ public class RabbitmqConfiguration {
 
     @Bean
     public DirectExchange vueDirectExchange() {
-        return new DirectExchange("vue.direct");
+        return new DirectExchange(exchangeName);
     }
 
     @Bean
     public Queue vueQueue() {
-        return new Queue("vue.queue", true);
+        return new Queue(queueName, true);
     }
 
     @Bean
     public Binding bindingCreate(DirectExchange vueDirectExchange, Queue vueQueue) {
-        return BindingBuilder.bind(vueQueue).to(vueDirectExchange).with("vue.key");
+        return BindingBuilder.bind(vueQueue).to(vueDirectExchange).with(routingKey);
     }
 
 }

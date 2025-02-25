@@ -1,6 +1,8 @@
 package com.mskim.demo.rest.board;
 
 import com.mskim.demo.base.model.VueJsResponse;
+import com.mskim.demo.rest.message.QueueMessageType;
+import com.mskim.demo.rest.message.QueueProducer;
 import com.mskim.demo.web.board.Board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardRestController {
 
+    private final QueueProducer queueProducer;
     private final BoardRestService boardRestService;
 
     @GetMapping("/list")
@@ -39,7 +42,11 @@ public class BoardRestController {
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
 
         if(isAdmin) {
-            boardRestService.createBoard(type, name);
+            queueProducer.sentToQueue(QueueMessageType.CREATE_BOARD,
+                    Board.builder()
+                            .type(type)
+                            .name(name).build());
+            //boardRestService.createBoard(type, name);
         } else {
             throw new AccessDeniedException("You do not have permission to add Board");
         }

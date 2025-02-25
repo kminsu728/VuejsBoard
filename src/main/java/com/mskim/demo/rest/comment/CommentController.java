@@ -1,6 +1,9 @@
 package com.mskim.demo.rest.comment;
 
 import com.mskim.demo.base.model.VueJsResponse;
+import com.mskim.demo.rest.message.QueueMessageType;
+import com.mskim.demo.rest.message.QueueProducer;
+import com.mskim.demo.web.board.Board;
 import com.mskim.demo.web.post.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -20,16 +23,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentController {
 
+    private final QueueProducer queueProducer;
     private final CommentService commentService;
 
     @PostMapping("/add")
     public ResponseEntity<VueJsResponse> add(HttpServletRequest request,
-                                        @RequestParam("id") String id,
+                                        @RequestParam("id") String pid,
                                         @RequestParam("author") String author,
                                         @RequestParam("content") String content) {
-        commentService.addComment(id, author, content);
+
+        queueProducer.sentToQueue(QueueMessageType.ADD_COMMENT,
+                Post.builder()
+                        .pid(pid)
+                        .author(author)
+                        .content(content).build());
+        //commentService.addComment(id, author, content);
         return VueJsResponse.ok(new HashMap<String, Object>(){{
-            put("id", id);
+            put("id", pid);
         }});
     }
 
@@ -51,10 +61,11 @@ public class CommentController {
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
 
-        if(isAdmin) {
-            commentService.deleteComment(id);
-        } else if (author.equals(authentication.getName())){
-            commentService.deleteComment(id);
+        if(isAdmin || author.equals(authentication.getName())) {
+            queueProducer.sentToQueue(QueueMessageType.DELETE_COMMENT,
+                    Post.builder()
+                            .id(id).build());
+            //commentService.deleteComment(id);
         } else {
             throw new AccessDeniedException("You do not have permission to delete this comment");
         }

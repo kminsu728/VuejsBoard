@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class QueueConsumer {
 
-    @RabbitListener(queues = "vue.queue")
-    public void receive(String message) {
-        QueueMessageType messageType = QueueMessageType.valueOf(message.toUpperCase());
+    @RabbitListener(queues = "${services.rabbitmq.queue-name}")
+    public void receive(QueueMessage message) {
+        QueueMessageType messageType = message.getQueueMessageType();
 
         switch (messageType) {
             case CREATE_POST:
