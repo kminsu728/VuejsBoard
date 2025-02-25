@@ -16,25 +16,25 @@ public class QueueConsumer {
 
         switch (messageType) {
             case CREATE_POST:
-                log.info("Create post");
+                log.info("CREATE_POST");
                 break;
             case DELETE_POST:
-                log.info("Create post");
+                log.info("DELETE_POST");
                 break;
             case UPDATE_POST:
-                log.info("Create post");
+                log.info("UPDATE_POST");
                 break;
             case ADD_COMMENT:
-                log.info("Create comment");
+                log.info("ADD_COMMENT");
                 break;
             case DELETE_COMMENT:
-                log.info("Create comment");
+                log.info("DELETE_COMMENT");
                 break;
             case CREATE_BOARD:
-                log.info("Create board");
+                log.info("CREATE_BOARD");
                 break;
             case INCREASE_VIEWS:
-                log.info("Increase views");
+                log.info("INCREASE_VIEWS");
                 break;
             default:
                 log.error("Unknown message type: {}", messageType);

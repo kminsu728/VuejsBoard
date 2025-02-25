@@ -46,16 +46,16 @@ public class LogAspect {
         String sessionId = getSessionId();
         String pkgName = joinPoint.getSignature().getDeclaringTypeName();
 
-        log.info("[{}]->{}", sessionId, pkgName);
+        log.debug("[{}]->{}", sessionId, pkgName);
         Object result;
         try {
             result = joinPoint.proceed();  // 실제 메서드 실행
-            log.info("[{}]<-{}", sessionId, pkgName);
+            log.debug("[{}]<-{}", sessionId, pkgName);
         } catch (VuejsException ve) {
-            log.info("[{}]!{} Exception : [{}] {}", sessionId, pkgName, ve.getTitle(), ve.getDescription());
+            log.error("[{}]!{} Exception : [{}] {}", sessionId, pkgName, ve.getTitle(), ve.getDescription());
             throw ve;
         } catch (Throwable throwable) {
-            log.info("[{}]!{} Exception : ", sessionId, pkgName, throwable);
+            log.error("[{}]!{} Exception : ", sessionId, pkgName, throwable);
             throw throwable;
         }
         return result;
@@ -65,16 +65,16 @@ public class LogAspect {
     public Object logAroundConfig(ProceedingJoinPoint joinPoint) throws Throwable {
         String pkgName = joinPoint.getSignature().getDeclaringTypeName();
 
-        log.info("->{}", pkgName);
+        log.debug("->{}", pkgName);
         Object result;
         try {
             result = joinPoint.proceed();
-            log.info("<-{}", pkgName);
+            log.debug("<-{}", pkgName);
         } catch (VuejsException ve) {
-            log.info("!{} Exception : [{}] {}", pkgName, ve.getTitle(), ve.getDescription());
+            log.error("!{} Exception : [{}] {}", pkgName, ve.getTitle(), ve.getDescription());
             throw ve;
         } catch (Throwable throwable) {
-            log.info("!{} Exception : ", pkgName, throwable);
+            log.error("!{} Exception : ", pkgName, throwable);
             throw throwable;
         }
         return result;
