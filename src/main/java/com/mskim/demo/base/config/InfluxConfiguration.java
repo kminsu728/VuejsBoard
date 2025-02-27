@@ -3,6 +3,7 @@ package com.mskim.demo.base.config;
 import com.influxdb.client.InfluxDBClient;
 import com.influxdb.client.InfluxDBClientFactory;
 import com.influxdb.client.InfluxDBClientOptions;
+import lombok.Getter;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +12,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.TimeUnit;
 
-//@Configuration
+@Configuration
+@Getter
 public class InfluxConfiguration {
 
     @Value("${services.influxdb.url}")
