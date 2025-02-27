@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
+//@Configuration
 public class WebConfiguration implements WebMvcConfigurer {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -16,6 +16,11 @@ public class WebConfiguration implements WebMvcConfigurer {
                 registry.addMapping("/api/**")
                         .allowedOrigins("http://localhost:8080")
                         .allowedMethods("GET", "POST", "PUT", "DELETE");
+
+                registry.addMapping("/ws/**")
+                        .allowedOrigins("http://localhost:8080")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowCredentials(true);
             }
         };
     }

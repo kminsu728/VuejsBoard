@@ -2,6 +2,7 @@ package com.mskim.demo.rest.message;
 
 import com.mskim.demo.rest.board.BoardRestService;
 import com.mskim.demo.rest.comment.CommentService;
+import com.mskim.demo.rest.websocket.WebSocketService;
 import com.mskim.demo.web.board.Board;
 import com.mskim.demo.web.post.Post;
 import com.mskim.demo.web.post.PostService;
@@ -18,6 +19,7 @@ public class QueueConsumer {
     private final PostService postService;
     private final CommentService commentService;
     private final BoardRestService boardRestService;
+    private final WebSocketService webSocketService;
 
     @RabbitListener(queues = "${services.rabbitmq.queue-name}")
     public void receive(QueueMessage message) {
@@ -28,6 +30,8 @@ public class QueueConsumer {
             case CREATE_POST: {
                 Post post = (Post) message.getArgs();
                 postService.createPost(post.getType(), post.getTitle(), post.getAuthor(), post.getContent());
+
+                //webSocketService.sendAlert("새로운 글이 등록되었습니다.");
                 break;
             }
             case DELETE_POST: {

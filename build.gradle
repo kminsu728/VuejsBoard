@@ -13,6 +13,7 @@ sourceCompatibility = 11
 targetCompatibility = 11
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -26,6 +27,7 @@ dependencies {
     runtimeOnly 'org.springframework.boot:spring-boot-starter-tomcat'
     runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     //implementation 'javax.servlet:jstl'
 
     // Lombok
@@ -50,6 +52,12 @@ dependencies {
 
     // rabbitMQ
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+    // openmaru ispn
+    implementation 'com.opennaru.khan:khan-session-hotrod:5.1.0-ispn7-jdk11'
+    implementation 'org.infinispan:infinispan-client-hotrod:7.2.5.Final'
+    //implementation files('libs/khan-session-core-5.1.0-ispn7.jar')
+    //implementation files('libs/khan-session-hotrod-5.1.0-ispn7.jar')
 
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

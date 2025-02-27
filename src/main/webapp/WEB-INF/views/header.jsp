@@ -9,6 +9,8 @@
     <title>TopHeader Example</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
 
     <%
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -138,6 +140,18 @@
             })
             .catch(error => console.error("게시판 목록을 불러오는 중 오류 발생:", error));
     });
+
+    // #### Websocket 관려 로직 ####
+    // var socket = new SockJS('/ws');
+    // var stompClient = Stomp.over(socket);
+    //
+    // stompClient.connect({}, function(frame) {
+    //     console.log('Connected: ' + frame);
+    //
+    //     stompClient.subscribe('/topic/alerts', function(message) {
+    //         alert(message.body); // WebSocket 메시지를 alert()으로 표시
+    //     });
+    // });
 
 </script>
 </body>
