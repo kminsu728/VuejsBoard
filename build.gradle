@@ -6,7 +6,7 @@ plugins {
 }
 
 bootWar {
-    archiveFileName = 'springboot-sample.war'
+    archiveFileName = 'boot.jar'
 }
 
 sourceCompatibility = 11
@@ -56,8 +56,10 @@ dependencies {
     // openmaru ispn
     implementation 'com.opennaru.khan:khan-session-hotrod:5.1.0-ispn7-jdk11'
     implementation 'org.infinispan:infinispan-client-hotrod:7.2.5.Final'
-    //implementation files('libs/khan-session-core-5.1.0-ispn7.jar')
-    //implementation files('libs/khan-session-hotrod-5.1.0-ispn7.jar')
+    //implementation 'org.infinispan:infinispan-core:7.2.5.Final'
+    implementation 'org.infinispan:infinispan-commons:7.2.5.Final'
+
+    implementation 'org.xerial.snappy:snappy-java:1.1.8.4'
 
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -1,7 +1,6 @@
 package com.mskim.demo.rest.login;
 
 import com.mskim.demo.rest.user.User;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

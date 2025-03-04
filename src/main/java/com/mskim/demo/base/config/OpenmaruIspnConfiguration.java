@@ -12,7 +12,7 @@ import javax.servlet.DispatcherType;
 import javax.servlet.http.HttpSessionListener;
 import java.util.Arrays;
 
-//@Configuration
+@Configuration
 public class OpenmaruIspnConfiguration implements WebMvcConfigurer {
 
     @Bean
@@ -31,10 +31,11 @@ public class OpenmaruIspnConfiguration implements WebMvcConfigurer {
         registrationBean.addInitParameter(Constants.SESSION_TIMEOUT, "30"); // minute
         registrationBean.addInitParameter(Constants.SESSION_SAVE_DELAY, "5");
         registrationBean.addInitParameter(Constants.EXCLUDE_REG_EXP, "/.+\\.(html|jpg|jpeg|png|gif|js|css|swf)");
-        registrationBean.addInitParameter(Constants.ALLOW_DUPLICATE_LOGIN, "true");
+        registrationBean.addInitParameter(Constants.ALLOW_DUPLICATE_LOGIN, "false");
+        registrationBean.addInitParameter(Constants.DUPLICATE_LOGIN_POLICY, "custom");
         registrationBean.addInitParameter(Constants.DUPLICATE_LOGIN_EXCLUSTION_TYPE, "");
         registrationBean.addInitParameter(Constants.INVALIDATE_DUPLICATE_LOGIN, "true");
-        registrationBean.addInitParameter(Constants.LOGOUT_URL, "");
+        registrationBean.addInitParameter(Constants.LOGOUT_URL, "/error");
         registrationBean.addInitParameter(Constants.ENABLE_IMMEDIATED_SAVE, "true");
         registrationBean.addInitParameter(Constants.ENABLE_STATISTICS, "true");
         registrationBean.addInitParameter(Constants.ENABLE_MEMORY_STATISTICS, "false");

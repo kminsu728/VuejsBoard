@@ -71,6 +71,8 @@
                 console.log(data);
                 if (data.status == 200) {
                     window.location.reload();
+                } else if (data.status == 401) {
+                    alert("로그인 실패: 중복 로그인 확인");
                 } else {
                     alert("로그인 실패: 아이디 또는 비밀번호 확인");
                 }

@@ -2,6 +2,10 @@ package com.mskim.demo.rest.login;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mskim.demo.base.model.VueJsResponse;
+import com.mskim.demo.base.model.VuejsException;
+import com.mskim.demo.base.model.VuejsExceptionType;
+import com.opennaru.khan.session.listener.SessionLoginManager;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,5 +47,15 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(jsonResponse);
         response.setStatus(status);
+
+        try {
+            clusterLogout(request);
+        } catch (Exception e) {
+            throw new VuejsException(VuejsExceptionType.logout_success_handle_fail);
+        }
+    }
+
+    public void clusterLogout(HttpServletRequest request) throws Exception {
+        SessionLoginManager.getInstance().logout(request);
     }
 }

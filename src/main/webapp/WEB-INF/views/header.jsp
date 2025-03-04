@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="org.springframework.security.core.Authentication" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="com.mskim.demo.rest.login.CustomUserDetails" %>
+<%@ page import="org.springframework.security.core.GrantedAuthority" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,14 +15,9 @@
     <%
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) ? auth.getName() : null;
-
-        String nickname = "";
-        boolean isAdmin = false;
-        if(auth.getPrincipal() != null && auth.getPrincipal() instanceof CustomUserDetails) {
-            CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
-            nickname = customUserDetails.getUser().getName();
-            isAdmin = customUserDetails.getAuthorities().toString().contains("ROLE_ADMIN");
-        }
+        boolean isAdmin = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch("ROLE_ADMIN"::equals);
     %>
 </head>
 <body>
@@ -42,7 +37,7 @@
             <button class="btn btn-primary me-2" onclick="openLoginModal()">로그인</button>
             <a class="btn btn-outline-secondary" href="/signup.jsp">회원가입</a>
             <% } else { %>
-            <span class="me-3 fw-bold text-dark"><%= nickname %> 님</span>
+            <span class="me-3 fw-bold text-dark"><%= username %> 님</span>
             <% if(isAdmin == true) { %>
                 <button class="btn btn-primary me-2" onclick="addBoardType()">게시판 생성</button>
             <% } %>

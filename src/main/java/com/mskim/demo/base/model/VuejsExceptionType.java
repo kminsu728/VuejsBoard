@@ -10,6 +10,9 @@ public enum VuejsExceptionType {
     data_initialize_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "data initialize fail", "A1000"),
     login_fail(HttpStatus.BAD_REQUEST, "invalid_request", "login fail", "A1001"),
     logout_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "logout fail", "A1002"),
+    login_duplication(HttpStatus.UNAUTHORIZED, "unauthorized", "login_duplication", "A1003"),
+    login_success_handle_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "login success handle fail", "A1004"),
+    logout_success_handle_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "login success handle fail", "A1005"),
     queue_producer_error(HttpStatus.BAD_REQUEST, "queue_producer_error", "queue producer error", "A2000");
 
     private HttpStatus status;
