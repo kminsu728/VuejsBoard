@@ -6,7 +6,7 @@ plugins {
 }
 
 bootWar {
-    archiveFileName = 'boot.jar'
+    archiveFileName = 'boot.war'
 }
 
 sourceCompatibility = 11
@@ -24,8 +24,8 @@ dependencies {
     // spring boot
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'org.springframework.boot:spring-boot-starter-tomcat'
-    runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     //implementation 'javax.servlet:jstl'
