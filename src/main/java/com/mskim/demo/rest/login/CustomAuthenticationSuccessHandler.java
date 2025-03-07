@@ -43,6 +43,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             response.getWriter().write(jsonResponse);
             response.setStatus(status);
 
+            request.getSession().setAttribute("loginSession", request.getSession().getId());
+
             clusterLogin(request, userDetails.getUsername());
         } catch (Exception e) {
             throw new VuejsException(VuejsExceptionType.login_success_handle_fail);
