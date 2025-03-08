@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mskim.demo.base.model.VueJsResponse;
 import com.mskim.demo.base.model.VuejsException;
 import com.mskim.demo.base.model.VuejsExceptionType;
-import com.opennaru.khan.session.listener.LoginUser;
-import com.opennaru.khan.session.listener.SessionLoginManager;
+//import com.opennaru.khan.session.listener.LoginUser;
+//import com.opennaru.khan.session.listener.SessionLoginManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -52,7 +52,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     }
 
     public boolean clusterLogin(HttpServletRequest request, String userId) throws Exception {
-        SessionLoginManager.getInstance().login(request, userId);
+        //SessionLoginManager.getInstance().login(request, userId);
 //        List<LoginUser> duplicatedUsers = SessionLoginManager.getInstance().login(request, userId);
 //        // 동일한 아이디로 로그인된 기록이 없으면 현재 자신 정보로 size는 1
 //        if (duplicatedUsers != null && duplicatedUsers.size() > 1) {

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mskim.demo.base.model.VueJsResponse;
 import com.mskim.demo.base.model.VuejsException;
 import com.mskim.demo.base.model.VuejsExceptionType;
-import com.opennaru.khan.session.listener.SessionLoginManager;
+//import com.opennaru.khan.session.listener.SessionLoginManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -56,6 +56,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     }
 
     public void clusterLogout(HttpServletRequest request) throws Exception {
-        SessionLoginManager.getInstance().logout(request);
+//        SessionLoginManager.getInstance().logout(request);
     }
 }

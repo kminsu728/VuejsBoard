@@ -23,32 +23,32 @@ import java.util.stream.Collectors;
 public class StatSchedulerService {
 
 
-    private final InfluxDBClient influxDBClient;
-    private final InfluxConfiguration influxConfiguration;
+//    private final InfluxDBClient influxDBClient;
+//    private final InfluxConfiguration influxConfiguration;
 
     public void savePostByTypeStats(List<PostByTypeStat> typeCounts, LocalDateTime time) {
-        WriteApiBlocking writeApi = influxDBClient.getWriteApiBlocking();
-
-        List<Point> points = typeCounts.stream()
-                .map(tc -> Point.measurement("post_by_type")
-                        .addTag("type", tc.get_id())
-                        .addField("count", tc.getCount())
-                        .time(time.atZone(ZoneOffset.ofHours(9)).toInstant(), WritePrecision.NS))
-                .collect(Collectors.toList());
-
-        writeApi.writePoints(influxConfiguration.getBucket(), influxConfiguration.getOrg(), points);
+//        WriteApiBlocking writeApi = influxDBClient.getWriteApiBlocking();
+//
+//        List<Point> points = typeCounts.stream()
+//                .map(tc -> Point.measurement("post_by_type")
+//                        .addTag("type", tc.get_id())
+//                        .addField("count", tc.getCount())
+//                        .time(time.atZone(ZoneOffset.ofHours(9)).toInstant(), WritePrecision.NS))
+//                .collect(Collectors.toList());
+//
+//        writeApi.writePoints(influxConfiguration.getBucket(), influxConfiguration.getOrg(), points);
     }
 
     public void savePostByAuthorStats(List<PostByAuthorStat> authorCounts, LocalDateTime time) {
-        WriteApiBlocking writeApi = influxDBClient.getWriteApiBlocking();
-
-        List<Point> points = authorCounts.stream()
-                .map(ac -> Point.measurement("post_by_author")
-                        .addTag("author", ac.get_id())
-                        .addField("count", ac.getCount())
-                        .time(time.atZone(ZoneOffset.ofHours(9)).toInstant(), WritePrecision.NS))
-                .collect(Collectors.toList());
-
-        writeApi.writePoints(influxConfiguration.getBucket(), influxConfiguration.getOrg(), points);
+//        WriteApiBlocking writeApi = influxDBClient.getWriteApiBlocking();
+//
+//        List<Point> points = authorCounts.stream()
+//                .map(ac -> Point.measurement("post_by_author")
+//                        .addTag("author", ac.get_id())
+//                        .addField("count", ac.getCount())
+//                        .time(time.atZone(ZoneOffset.ofHours(9)).toInstant(), WritePrecision.NS))
+//                .collect(Collectors.toList());
+//
+//        writeApi.writePoints(influxConfiguration.getBucket(), influxConfiguration.getOrg(), points);
     }
 }
