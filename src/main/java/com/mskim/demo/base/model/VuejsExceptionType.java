@@ -13,8 +13,6 @@ public enum VuejsExceptionType {
     login_duplication(HttpStatus.UNAUTHORIZED, "unauthorized", "login_duplication", "A1003"),
     login_success_handle_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "login success handle fail", "A1004"),
     logout_success_handle_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "login success handle fail", "A1005"),
-    login_session_not_found(HttpStatus.UNAUTHORIZED, "Unauthorized", "login session not found", "A1006"),
-    user_not_found(HttpStatus.NOT_FOUND, "Not Found", "user not found", "A1007"),
     queue_producer_error(HttpStatus.BAD_REQUEST, "queue_producer_error", "queue producer error", "A2000");
 
     private HttpStatus status;

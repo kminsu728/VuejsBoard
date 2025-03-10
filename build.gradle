@@ -13,17 +13,7 @@ sourceCompatibility = 11
 targetCompatibility = 11
 
 repositories {
-    maven {
-        url "http://maven.dev.opennaru.com/nexus/content/repositories/opennaru"
-        allowInsecureProtocol = true
-        credentials {
-            username = "admin"
-            password = "qwer0987"
-        }
-    }
-    maven {
-        url "https://maven.repository.redhat.com/ga/"
-    }
+    mavenLocal()
     mavenCentral()
 }
 
@@ -64,10 +54,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
     // openmaru ispn
-    //implementation 'com.opennaru.khan:khan-session-core:5.1.0-ispn7'
-    implementation 'com.opennaru.khan:khan-session-hotrod:5.1.0-ispn7'
+    implementation 'com.opennaru.khan:khan-session-hotrod:5.1.0-ispn7-jdk11'
     implementation 'org.infinispan:infinispan-client-hotrod:7.2.5.Final'
-    implementation 'org.infinispan:infinispan-core:7.2.5.Final'
+    //implementation 'org.infinispan:infinispan-core:7.2.5.Final'
     implementation 'org.infinispan:infinispan-commons:7.2.5.Final'
 
     implementation 'org.xerial.snappy:snappy-java:1.1.8.4'
