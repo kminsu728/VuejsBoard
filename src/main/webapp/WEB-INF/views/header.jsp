@@ -22,7 +22,7 @@
                 .anyMatch("ROLE_ADMIN"::equals);
 
         String nickname = "";
-        if(auth.getPrincipal() != null && auth.getPrincipal() instanceof com.mskim.demo.rest.login.CustomUserDetails) {
+        if(auth.getPrincipal() != null && auth.getPrincipal() instanceof CustomUserDetails) {
             CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
             nickname = customUserDetails.getUser().getName();
         }

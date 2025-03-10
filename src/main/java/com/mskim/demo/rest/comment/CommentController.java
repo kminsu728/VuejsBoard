@@ -3,6 +3,7 @@ package com.mskim.demo.rest.comment;
 import com.mskim.demo.base.model.VueJsResponse;
 import com.mskim.demo.rest.message.QueueMessageType;
 import com.mskim.demo.rest.message.QueueProducer;
+import com.mskim.demo.rest.websocket.WebSocketService;
 import com.mskim.demo.web.board.Board;
 import com.mskim.demo.web.post.Post;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class CommentController {
 
     private final QueueProducer queueProducer;
     private final CommentService commentService;
+    private final WebSocketService webSocketService;
 
     @PostMapping("/add")
     public ResponseEntity<VueJsResponse> add(HttpServletRequest request,
@@ -38,6 +40,9 @@ public class CommentController {
                         .author(author)
                         .content(content).build());
         //commentService.addComment(id, author, content);
+
+        webSocketService.websocketNewComment(pid, "새 댓글이 달렸습니다: " + content);
+
         return VueJsResponse.ok(new HashMap<String, Object>(){{
             put("id", pid);
         }});

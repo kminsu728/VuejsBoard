@@ -10,7 +10,8 @@ public class WebSocketService {
 
     private final SimpMessagingTemplate messagingTemplate;
 
-    public void sendAlert(String message) {
-        messagingTemplate.convertAndSend("/topic/alerts", message);
+    public void websocketNewComment(String postId, String message) {
+        WebSocketMessage notification = new WebSocketMessage("새 댓글 알림", message);
+        messagingTemplate.convertAndSend("/topic/notifications", notification);
     }
 }
