@@ -2,6 +2,8 @@
 <%@ page import="org.springframework.security.core.Authentication" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page import="org.springframework.security.core.GrantedAuthority" %>
+<%@ page import="com.mskim.demo.rest.login.CustomUserDetails" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +20,12 @@
         boolean isAdmin = auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .anyMatch("ROLE_ADMIN"::equals);
+
+        String nickname = "";
+        if(auth.getPrincipal() != null && auth.getPrincipal() instanceof com.mskim.demo.rest.login.CustomUserDetails) {
+            CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
+            nickname = customUserDetails.getUser().getName();
+        }
     %>
 </head>
 <body>
@@ -37,7 +45,7 @@
             <button class="btn btn-primary me-2" onclick="openLoginModal()">로그인</button>
             <a class="btn btn-outline-secondary" href="/signup.jsp">회원가입</a>
             <% } else { %>
-            <span class="me-3 fw-bold text-dark"><%= username %> 님</span>
+            <span class="me-3 fw-bold text-dark"><%= nickname %> 님</span>
             <% if(isAdmin == true) { %>
                 <button class="btn btn-primary me-2" onclick="addBoardType()">게시판 생성</button>
             <% } %>
