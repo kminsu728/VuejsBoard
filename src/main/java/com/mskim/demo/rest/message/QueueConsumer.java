@@ -1,11 +1,11 @@
 package com.mskim.demo.rest.message;
 
-import com.mskim.demo.rest.board.BoardRestService;
+import com.mskim.demo.rest.board.BoardService;
 import com.mskim.demo.rest.comment.CommentService;
 import com.mskim.demo.rest.websocket.WebSocketService;
-import com.mskim.demo.web.board.Board;
-import com.mskim.demo.web.post.Post;
-import com.mskim.demo.web.post.PostService;
+import com.mskim.demo.rest.board.Board;
+import com.mskim.demo.rest.post.Post;
+import com.mskim.demo.rest.post.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -18,7 +18,7 @@ public class QueueConsumer {
 
     private final PostService postService;
     private final CommentService commentService;
-    private final BoardRestService boardRestService;
+    private final BoardService boardService;
     private final WebSocketService webSocketService;
 
     @RabbitListener(queues = "${services.rabbitmq.queue-name}")
@@ -56,7 +56,7 @@ public class QueueConsumer {
             }
             case CREATE_BOARD: {
                 Board board = (Board) message.getArgs();
-                boardRestService.createBoard(board.getType(), board.getName());
+                boardService.createBoard(board.getType(), board.getName());
                 break;
             }
             case INCREASE_VIEWS: {

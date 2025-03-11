@@ -1,4 +1,4 @@
-package com.mskim.demo.web.post;
+package com.mskim.demo.rest.post;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

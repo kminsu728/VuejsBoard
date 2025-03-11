@@ -13,7 +13,10 @@ public enum VuejsExceptionType {
     login_duplication(HttpStatus.UNAUTHORIZED, "unauthorized", "login_duplication", "A1003"),
     login_success_handle_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "login success handle fail", "A1004"),
     logout_success_handle_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "login success handle fail", "A1005"),
-    queue_producer_error(HttpStatus.BAD_REQUEST, "queue_producer_error", "queue producer error", "A2000");
+    queue_producer_error(HttpStatus.BAD_REQUEST, "queue_producer_error", "queue producer error", "A2000"),
+
+    invalid_post(HttpStatus.BAD_REQUEST, "invalid_request", "invalid post id", "P0001"),
+    delete_post_fail(HttpStatus.BAD_REQUEST, "internal_server_error", "delete post fail", "P0002");
 
     private HttpStatus status;
     private String title;

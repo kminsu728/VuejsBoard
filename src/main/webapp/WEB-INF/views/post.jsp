@@ -1,6 +1,6 @@
 <%@ page import="org.springframework.security.core.Authentication" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="com.mskim.demo.web.post.Post" %>
+<%@ page import="com.mskim.demo.rest.post.Post" %>
 <%@ page import="org.springframework.security.core.userdetails.UserDetails" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>

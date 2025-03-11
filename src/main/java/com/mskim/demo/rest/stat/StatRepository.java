@@ -1,6 +1,6 @@
 package com.mskim.demo.rest.stat;
 
-import com.mskim.demo.web.post.Post;
+import com.mskim.demo.rest.post.Post;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

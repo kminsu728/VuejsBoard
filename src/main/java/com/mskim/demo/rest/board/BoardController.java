@@ -3,7 +3,6 @@ package com.mskim.demo.rest.board;
 import com.mskim.demo.base.model.VueJsResponse;
 import com.mskim.demo.rest.message.QueueMessageType;
 import com.mskim.demo.rest.message.QueueProducer;
-import com.mskim.demo.web.board.Board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -18,14 +17,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/board")
 @RequiredArgsConstructor
-public class BoardRestController {
+public class BoardController {
 
     private final QueueProducer queueProducer;
-    private final BoardRestService boardRestService;
+    private final BoardService boardService;
 
     @GetMapping("/list")
     public ResponseEntity<VueJsResponse> getList(HttpServletRequest request) {
-        List<Board> boards = boardRestService.getBoard();
+        List<Board> boards = boardService.getBoard();
 
         return VueJsResponse.ok(new HashMap<String, Object>(){{
             put("boards", boards);

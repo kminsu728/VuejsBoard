@@ -20,7 +20,7 @@ public class StatsScheduler {
     private final StatSchedulerService statSchedulerService;
     private final StatRepository statRepository;
 
-    @Scheduled(cron = "0 * * * * *")
+    //@Scheduled(cron = "0 * * * * *")
     public void collectPostStats() {
         log.info("📊 게시글 통계를 수집하여 InfluxDB에 저장 시작!");
 

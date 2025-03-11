@@ -1,4 +1,4 @@
-package com.mskim.demo.web.board;
+package com.mskim.demo.rest.board;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

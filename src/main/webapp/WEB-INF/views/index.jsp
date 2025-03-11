@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.mskim.demo.web.post.Post" %>
+<%@ page import="com.mskim.demo.rest.post.Post" %>
 <%@ page import="java.util.Map" %>
 <!DOCTYPE html>
 <html lang="ko">

@@ -1,17 +1,21 @@
 package com.mskim.demo.rest.board;
 
-import com.mskim.demo.web.board.Board;
-import com.mskim.demo.web.board.BoardRepository;
+import com.mskim.demo.rest.post.Post;
+import com.mskim.demo.rest.post.PostRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class BoardRestService {
+public class BoardService {
 
     private final BoardRepository boardRepository;
+    PostRepository postRepository;
 
     public List<Board> getBoard() {
         return boardRepository.findAll();
@@ -24,4 +28,5 @@ public class BoardRestService {
 
         boardRepository.save(board);
     }
+
 }

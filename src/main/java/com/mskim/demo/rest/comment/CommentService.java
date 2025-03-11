@@ -1,7 +1,7 @@
 package com.mskim.demo.rest.comment;
 
-import com.mskim.demo.web.post.Post;
-import com.mskim.demo.web.post.PostRepository;
+import com.mskim.demo.rest.post.Post;
+import com.mskim.demo.rest.post.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
