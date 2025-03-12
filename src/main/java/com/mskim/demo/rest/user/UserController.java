@@ -24,6 +24,10 @@ public class UserController {
     @GetMapping("/info")
     public ResponseEntity<VueJsResponse> getUser(HttpServletRequest request,
                                                     @RequestParam("username") String username) {
+        if(username == null || username.isEmpty()) {
+            return VueJsResponse.ok(null);
+        }
+
         User user = userService.getUser(username);
 
         return VueJsResponse.ok(new HashMap<String, Object>(){{
