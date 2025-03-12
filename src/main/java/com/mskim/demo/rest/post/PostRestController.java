@@ -38,7 +38,7 @@ public class PostRestController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<VueJsResponse> getList(HttpServletRequest request) {
+    public ResponseEntity<VueJsResponse> getListHome(HttpServletRequest request) {
         String types = "qna,community";     //추후 db 에서 게시판 타입 조회 하는걸로 수정예정
         String[] typeArray = types.split(",");
         Map<String, List<Post>> postsByType = new HashMap<>();
@@ -47,6 +47,18 @@ public class PostRestController {
             List<Post> posts = postService.getPostList(type, 1);
             postsByType.put(type, posts);
         }
+
+        return VueJsResponse.ok(postsByType);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<VueJsResponse> getList(HttpServletRequest request,
+                                                 @RequestParam("type") String type,
+                                                 @RequestParam("page") int page) {
+        Map<String, List<Post>> postsByType = new HashMap<>();
+
+        List<Post> posts = postService.getPostList(type, page);
+        postsByType.put(type, posts);
 
         return VueJsResponse.ok(postsByType);
     }
