@@ -4,9 +4,9 @@ plugins {
     id 'java'
 }
 
-//bootWar {
-//    archiveFileName = 'boot.war'
-//}
+bootWar {
+    archiveFileName = 'boot.war'
+}
 
 sourceCompatibility = 11
 targetCompatibility = 11
