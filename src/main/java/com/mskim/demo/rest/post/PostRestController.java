@@ -51,7 +51,7 @@ public class PostRestController {
         return VueJsResponse.ok(postsByType);
     }
 
-    @GetMapping("/list2")
+    @GetMapping("/list")
     public ResponseEntity<VueJsResponse> getList(HttpServletRequest request,
                                                  @RequestParam("type") String type,
                                                  @RequestParam("page") int page) {
