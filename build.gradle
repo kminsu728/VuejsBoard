@@ -56,9 +56,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
     // openmaru ispn
+    implementation ('com.opennaru.khan:khan-session-core:5.1.0-ispn7-jdk11'){
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+    }
     implementation 'com.opennaru.khan:khan-session-hotrod:5.1.0-ispn7-jdk11'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.infinispan:infinispan-client-hotrod:7.2.5.Final'
-    //implementation 'org.infinispan:infinispan-core:7.2.5.Final'
     implementation 'org.infinispan:infinispan-commons:7.2.5.Final'
 
     implementation 'org.xerial.snappy:snappy-java:1.1.8.4'

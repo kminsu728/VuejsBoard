@@ -32,7 +32,6 @@ public class OpenmaruIspnConfiguration implements WebMvcConfigurer {
         registrationBean.addInitParameter(Constants.SESSION_SAVE_DELAY, "5");
         registrationBean.addInitParameter(Constants.EXCLUDE_REG_EXP, "/.+\\.(html|jpg|jpeg|png|gif|js|css|swf)");
         registrationBean.addInitParameter(Constants.ALLOW_DUPLICATE_LOGIN, "false");
-        registrationBean.addInitParameter(Constants.DUPLICATE_LOGIN_POLICY, "legacy");
         registrationBean.addInitParameter(Constants.DUPLICATE_LOGIN_EXCLUSTION_TYPE, "");
         registrationBean.addInitParameter(Constants.INVALIDATE_DUPLICATE_LOGIN, "true");
         registrationBean.addInitParameter(Constants.LOGOUT_URL, "/error");
