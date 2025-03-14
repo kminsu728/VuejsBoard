@@ -51,23 +51,28 @@ public class PostRestController {
         return VueJsResponse.ok(postsByType);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/list/{type}")
     public ResponseEntity<VueJsResponse> getList(HttpServletRequest request,
-                                                 @RequestParam("type") String type,
+                                                 @PathVariable("type") String type,
                                                  @RequestParam("page") int page) {
         Map<String, List<Post>> postsByType = new HashMap<>();
 
         List<Post> posts = postService.getPostList(type, page);
-        postsByType.put(type, posts);
+        int totalpage = postService.getTotalPostCount(type);
 
-        return VueJsResponse.ok(postsByType);
+        return VueJsResponse.ok(new HashMap<String, Object>(){{
+            put("posts", posts);
+            put("type", type);
+            put("totalpage", totalpage);
+        }});
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/{type}")
     public ResponseEntity<VueJsResponse> searchPost(HttpServletRequest request,
-                             @RequestParam("type") String type,
-                             @RequestParam("searchKeyword") String searchKeyword) {
-        List<Post> posts = postService.getSearchPostList(type, searchKeyword, 1);
+                             @PathVariable("type") String type,
+                             @RequestParam("query") String query,
+                             @RequestParam("page") int page) {
+        List<Post> posts = postService.getSearchPostList(type, query, page);
         int totalpage = postService.getTotalPostCount(type);
 
         return VueJsResponse.ok(new HashMap<String, Object>(){{
