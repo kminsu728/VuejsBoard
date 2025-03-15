@@ -65,6 +65,7 @@ public class LoginController {
             userInfo = Map.of(
                     "username", userDetails.getUser().getUserId(),
                     "nickname", userDetails.getUser().getName(),
+                    "email", userDetails.getUser().getEmail(),
                     "isAdmin", authentication.getAuthorities().stream()
                             .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))
             );

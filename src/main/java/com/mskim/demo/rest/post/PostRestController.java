@@ -93,21 +93,18 @@ public class PostRestController {
 
     @PostMapping("/create")
     public ResponseEntity<VueJsResponse> create(HttpServletRequest request,
-                         @RequestParam("type") String type,
-                         @RequestParam("title") String title,
-                         @RequestParam("author") String author,
-                         @RequestParam("content") String content) {
+                         @RequestBody Post post) {
 
         queueProducer.sentToQueue(QueueMessageType.CREATE_POST,
                 Post.builder()
-                        .type(type)
-                        .title(title)
-                        .author(author)
-                        .content(content).build());
+                        .type(post.getType())
+                        .title(post.getTitle())
+                        .author(post.getAuthor())
+                        .content(post.getContent()).build());
 
         //return "redirect:/board?type=" + type;
         return VueJsResponse.ok(new HashMap<String, Object>(){{
-            put("type", type);
+            put("type", post.getType());
         }});
     }
 
