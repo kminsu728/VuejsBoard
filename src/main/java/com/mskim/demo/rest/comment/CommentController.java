@@ -28,21 +28,19 @@ public class CommentController {
 
     @PostMapping("/add")
     public ResponseEntity<VueJsResponse> add(HttpServletRequest request,
-                                        @RequestParam("id") String pid,
-                                        @RequestParam("author") String author,
-                                        @RequestParam("content") String content) {
+                                        @RequestBody Post post) {
 
-        queueProducer.sentToQueue(QueueMessageType.ADD_COMMENT,
-                Post.builder()
-                        .pid(pid)
-                        .author(author)
-                        .content(content).build());
+        queueProducer.sentToQueue(QueueMessageType.ADD_COMMENT, post);
+//                Post.builder()
+//                        .pid(id)
+//                        .author(author)
+//                        .content(content).build());
         //commentService.addComment(id, author, content);
 
-        webSocketService.websocketNewComment(pid, "새 댓글이 달렸습니다: " + content);
+        webSocketService.websocketNewComment(post.getPid(), "새 댓글이 달렸습니다: " + post.getComments());
 
         return VueJsResponse.ok(new HashMap<String, Object>(){{
-            put("id", pid);
+            put("id", post.getPid());
         }});
     }
 
@@ -57,17 +55,16 @@ public class CommentController {
 
     @PostMapping("/delete")
     public ResponseEntity<VueJsResponse> delete(HttpServletRequest request,
-                                                       @RequestParam("id") String id,
-                                                       @RequestParam("author") String author) {
+                                                       @RequestBody Post post) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
 
-        if(isAdmin || author.equals(authentication.getName())) {
+        if(isAdmin || post.getAuthor().equals(authentication.getName())) {
             queueProducer.sentToQueue(QueueMessageType.DELETE_COMMENT,
                     Post.builder()
-                            .id(id).build());
+                            .id(post.getId()).build());
             //commentService.deleteComment(id);
         } else {
             throw new AccessDeniedException("You do not have permission to delete this comment");

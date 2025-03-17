@@ -110,18 +110,16 @@ public class PostRestController {
 
     @PostMapping("/delete")
     public ResponseEntity<VueJsResponse> delete(HttpServletRequest request,
-                         @RequestParam("type") String type,
-                         @RequestParam("id") String id,
-                         @RequestParam("author") String author) {
+                         @RequestBody Post post) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
 
-        if(isAdmin || author.equals(authentication.getName())) {
+        if(isAdmin || post.getAuthor().equals(authentication.getName())) {
             queueProducer.sentToQueue(QueueMessageType.DELETE_POST,
                     Post.builder()
-                            .id(id).build());
+                            .id(post.getId()).build());
             //postService.deletePost(id);
         } else {
             return VueJsResponse.error(new VuejsException(VuejsExceptionType.delete_post_fail));
@@ -129,7 +127,7 @@ public class PostRestController {
 
         //return "redirect:/board?type=" + type;
         return VueJsResponse.ok(new HashMap<String, Object>(){{
-            put("type", type);
+            put("id", post.getId());
         }});
     }
 
