@@ -2,11 +2,16 @@ plugins {
     id 'org.springframework.boot' version '2.7.0'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
-    id 'war'
+    //id 'war'
 }
 
-bootWar {
-    archiveFileName = 'boot.war'
+jar {
+    enabled = false // plain jar 생성 방지
+}
+
+bootJar {
+    archiveFileName = 'VuejsBoard.jar'
+    enabled = true // boot jar 활성화
 }
 
 sourceCompatibility = 11

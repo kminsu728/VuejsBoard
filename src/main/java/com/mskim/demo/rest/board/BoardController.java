@@ -33,8 +33,7 @@ public class BoardController {
 
     @PostMapping("/create")
     public ResponseEntity<VueJsResponse> create(HttpServletRequest request,
-                                                    @RequestParam("type") String type,
-                                                    @RequestParam("name") String name) {
+                                                    @RequestBody Board board) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         boolean isAdmin = authentication.getAuthorities().stream()
@@ -43,15 +42,15 @@ public class BoardController {
         if(isAdmin) {
             queueProducer.sentToQueue(QueueMessageType.CREATE_BOARD,
                     Board.builder()
-                            .type(type)
-                            .name(name).build());
+                            .type(board.getType())
+                            .name(board.getName()).build());
             //boardRestService.createBoard(type, name);
         } else {
             throw new AccessDeniedException("You do not have permission to add Board");
         }
 
         return VueJsResponse.ok(new HashMap<String, Object>(){{
-            put("type", type);
+            put("type", board.getType());
         }});
     }
 }

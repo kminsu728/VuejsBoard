@@ -40,11 +40,9 @@ public class UserController {
 
     @PostMapping("/info/update")
     public ResponseEntity<VueJsResponse> infoUpdate(HttpServletRequest request,
-                                                    @RequestParam("username") String username,
-                                                    @RequestParam("name") String name,
-                                                    @RequestParam("email") String email) {
+                                                    @RequestBody User userinfo) {
 
-        User user = userService.updateUser(username, name, email);
+        User user = userService.updateUser(userinfo.getUserId(), userinfo.getName(), userinfo.getEmail());
 
         return VueJsResponse.ok(new HashMap<String, Object>(){{
             put("userId", user.getUserId());
