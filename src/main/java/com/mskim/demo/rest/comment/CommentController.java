@@ -37,7 +37,7 @@ public class CommentController {
 //                        .content(content).build());
         //commentService.addComment(id, author, content);
 
-        webSocketService.websocketNewComment(post.getPid(), "새 댓글이 달렸습니다: " + post.getComments());
+        webSocketService.websocketNewComment(post.getAuthor(), post.getContent());
 
         return VueJsResponse.ok(new HashMap<String, Object>(){{
             put("id", post.getPid());
