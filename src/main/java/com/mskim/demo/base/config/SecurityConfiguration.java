@@ -16,7 +16,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -43,20 +42,18 @@ public class SecurityConfiguration {
                         .anyRequest()
                         .permitAll()
                 )
-                .formLogin(login -> login.disable()) // 폼 로그인 비활성화 (REST API만 사용)
-//                .formLogin(form -> form
-//                        .loginProcessingUrl("/login")
-//                        .usernameParameter("username")
-//                        .passwordParameter("password")
-//                        .successHandler(new CustomAuthenticationSuccessHandler()) // 성공 핸들러 등록
-//                        .failureHandler(new CustomAuthenticationFailureHandler()) // 실패 핸들러 등록
-//                        .permitAll())
-                .logout(logout -> logout.disable());
-//                .logout(logout -> logout
-//                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                        .logoutSuccessHandler(new CustomLogoutSuccessHandler())
-//                        .invalidateHttpSession(true)
-//                        .deleteCookies("JSESSIONID")
+                .formLogin(form -> form
+                        .loginProcessingUrl("/login")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .successHandler(new CustomAuthenticationSuccessHandler()) // 성공 핸들러 등록
+                        .failureHandler(new CustomAuthenticationFailureHandler()) // 실패 핸들러 등록
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessHandler(new CustomLogoutSuccessHandler())
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"));
 
         return http.build();
     }
